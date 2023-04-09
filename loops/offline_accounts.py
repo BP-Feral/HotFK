@@ -12,12 +12,12 @@ def offline_account_loop(game_engine, mixer, particle_handler):
     mainClock = game_engine.mainClock
     
 
-    background = load_image("resources/background.png")
+    background = load_image("resources/images/backgrounds/background.png")
 
-    b0 = Button(1450, 220, "resources/new.png", "resources/new_hover.png", 2)
-    b1 = Button(1450, 220 + 1 * 120, "resources/empty.png", "resources/empty_hover.png", 2)
-    b2 = Button(1450, 220 + 2 * 120, "resources/empty.png", "resources/empty_hover.png", 2)
-    b3 = Button(1450, 220 + 3 * 120, "resources/empty.png", "resources/empty_hover.png", 2)
+    b0 = Button(1450, 220, "resources/images/buttons/new.png", "resources/images/buttons/new_hover.png", 2)
+    b1 = Button(1450, 220 + 1 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 2)
+    b2 = Button(1450, 220 + 2 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 2)
+    b3 = Button(1450, 220 + 3 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 2)
     buttons_list = [b0, b1, b2, b3]
 
     # particles event

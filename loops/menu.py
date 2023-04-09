@@ -15,16 +15,16 @@ def menu_loop(game_engine, mixer):
     screen = pygame.display.get_surface()
     mainClock = game_engine.mainClock
 
-    offline_banner = Button(450, 270, "resources/offline_banner.png", "resources/offline_banner_hover.png", 5)
-    online_banner = Button(1070, 270, "resources/online_banner.png", "resources/online_banner_hover.png", 5)
+    offline_banner = Button(450, 270, "resources/images/buttons/offline_banner.png", "resources/images/buttons/offline_banner_hover.png", 5)
+    online_banner = Button(1070, 270, "resources/images/buttons/online_banner.png", "resources/images/buttons/online_banner_hover.png", 5)
 
-    discord = Button(400, 900, "resources/discord.png", "resources/discord_hover.png", 0)
-    github = Button(260, 900, "resources/github.png","resources/github_hover.png", 0)
+    discord = Button(400, 900, "resources/images/buttons/discord.png", "resources/images/buttons/discord_hover.png", 0)
+    github = Button(260, 900, "resources/images/buttons/github.png","resources/images/buttons/github_hover.png", 0)
 
-    options = Button(1920-400-104, 900, "resources/options.png", "resources/options_hover.png", 0)
-    leave = Button(1920-260-104, 900, "resources/quit.png","resources/quit_hover.png", 0)
+    options = Button(1920-400-104, 900, "resources/images/buttons/options.png", "resources/images/buttons/options_hover.png", 0)
+    leave = Button(1920-260-104, 900, "resources/images/buttons/quit.png","resources/images/buttons/quit_hover.png", 0)
 
-    background = load_image("resources/background.png")
+    background = load_image("resources/images/backgrounds/background.png")
     # Souds
     ui_click = mixer.Sound('resources/sounds/UI_click.mp3')
 

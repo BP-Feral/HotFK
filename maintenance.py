@@ -10,13 +10,13 @@ json = json.dumps(template)
 
 
 def custom_mouse():
-    cursor = image.load("resources/mouse.png").convert_alpha()
+    cursor = image.load("resources/images/cursors/mouse.png").convert_alpha()
     cursor.set_colorkey((0, 0, 0))
     rect = cursor.get_rect()
     return cursor, rect
 
 def custom_mouse_highlight():
-    cursor = image.load("resources/mouse_highlight.png").convert_alpha()
+    cursor = image.load("resources/images/cursors/mouse_highlight.png").convert_alpha()
     cursor.set_colorkey((0, 0, 0))
     rect = cursor.get_rect()
     return cursor, rect
