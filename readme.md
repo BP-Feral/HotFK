@@ -1,12 +1,19 @@
 # Welcome to Heroes of the Fallen Kingdom - HOTFK -
 
 ## Changelog
-### v. pre-0.05a <span style="color:grey">4/Feb/2023</span>
-- Added links for Discord and Github in the menu
-- Paralax background
+
+### v. pre-0.0.6a <span style="color:grey">9/Apr/2023</span>
+- Added particles class and particles in the main menu.
+- Added sound mixer for background music and putton events.
+- Created 2 new buttons for options and leaving the game.
+- Adjusted certain UI elements.
 
 <details closed>
 <summary><span style="color:grey">Older Releases</span></summary>
+
+### v. pre-0.0.5a <span style="color:grey">4/Feb/2023</span>
+- Added links for Discord and Github in the main menu
+- Paralax background
 
 ### v. pre-0.0.4a <span style="color:grey">3/Feb/2023</span>
 - Added 5 slots for offline accounts

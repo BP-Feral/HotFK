@@ -13,7 +13,7 @@ settings = {
     "fullscreen": True, 
     "offline": True, 
     "debug-mode": True, 
-    'version': "pre-0.0.5a"
+    'version': "pre-0.0.6a"
 }
 
 # Engine Instance -------------------------------------------- #
