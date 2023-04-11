@@ -39,7 +39,7 @@
 
 ## Contact
 ### Discord or email
-Send us a direct message at `Rioter Neeko#0646` / `Yserion#7716` or join us using [this server invite](https://discord.gg/J5wDbVjDWc).
+Send us a direct message at `Rioter Neeko#0646` / `Yserion#7716` or join us using [this server invite](https://discord.gg/xcEYBpn2k2).
 
 You can also send me an email at mihai.pricbo@yahoo.com if DIscord is not an option.
 
