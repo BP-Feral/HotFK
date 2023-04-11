@@ -39,7 +39,7 @@
 
 ## Contact
 ### Discord or email
-Send us a direct message at `Rioter Neeko#0646` / `Yserion#7716` or join us using [this server invite](https://discord.gg/J5wDbVjDWc).
+Send us a direct message at `Rioter Neeko#0646` / `Yserion#7716` or join us using [this server invite](https://discord.gg/xcEYBpn2k2).
 
 You can also send me an email at mihai.pricbo@yahoo.com if DIscord is not an option.
 
@@ -62,15 +62,32 @@ And finally, I repeat once again, if there is anything else let us know.
 We will continue to work on further updates and a way to deliver a beta version as soon as possible.
 
 ## TODO
+### Completed
+- [x] Core System
+- [x] Sound System
+- [x] Menu Views
+- [x] Chat System
+- [x] Uninterupted music between scenes
+- [x] Responsive GUI
+- [x] Animated Main Menu
+
 ### Next
-- [ ] Rework Font System
-- [x] Animate and decorate Main Menu
-- [ ] Options page
+- [ ] Notifications System
+- [ ] Fix in-game Disclaimer
 - [ ] Fix button collisoions
+
 ### Future
-- [ ] Tutorial level (Singleplayer)
+- [ ] Options page
+- [ ] Rework Font System
+- [ ] Creative / Sandbox
+- [ ] Commands to support Creative / Sandbox
+- [ ] Save and Load data
+- [ ] Cloud saving
 - [ ] Player, Enemy, AI
 - [ ] Player inventory
+- [ ] Tutorial level (Singleplayer)
 - [ ] Account management
+- [ ] Co-Op (max 4 extra friends)
+- [ ] Multiplayer
 
 > More mechanics and features to be announced!
