@@ -74,7 +74,7 @@ We will continue to work on further updates and a way to deliver a beta version 
 ### Next
 - [ ] Notifications System
 - [ ] Fix in-game Disclaimer
-- [ ] Fix button collisoions
+- [ ] Fix button collisions
 
 ### Future
 - [ ] Options page
