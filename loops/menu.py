@@ -6,6 +6,7 @@ from maintenance import clear_project, console_push, load_image, custom_mouse_hi
 from classes.button import Button
 from loops.offline_accounts import offline_account_loop
 from classes.particle import Particle
+from classes.console import Console
 
 # Menu Loop -------------------------------------------------- #
 def menu_loop(game_engine, mixer):
@@ -33,6 +34,9 @@ def menu_loop(game_engine, mixer):
     pygame.time.set_timer(PARTICLE_EVENT, 100)
     particle_handler = Particle()
 
+    # Console / chat
+    chat_console = Console(screen)
+
     # LOOP START
     running = True
     while running:
@@ -42,6 +46,7 @@ def menu_loop(game_engine, mixer):
 
         # Reset Frame
         screen.fill(0)
+        # Position Background
         screen.blit(background, (mx // 50 - 38, my // 50 - 21))
         # Draw Particles
         particle_handler.emit(screen)        
@@ -50,7 +55,7 @@ def menu_loop(game_engine, mixer):
             if game_engine.debug_mode:
                 console_push("Offline clicked")
             ui_click.play()
-            offline_account_loop(game_engine, mixer, particle_handler)
+            offline_account_loop(game_engine, mixer, particle_handler, chat_console)
             
         if online_banner.draw(screen):
             if game_engine.debug_mode:
@@ -58,7 +63,7 @@ def menu_loop(game_engine, mixer):
             ui_click.play()
 
         if discord.draw(screen):
-            webbrowser.open("https://discord.gg/J5wDbVjDWc")
+            webbrowser.open("https://discord.gg/xcEYBpn2k2")
             ui_click.play()
 
         if github.draw(screen):
@@ -76,23 +81,30 @@ def menu_loop(game_engine, mixer):
             sys.exit()
 
         # Events ------------------------------------------------- #
-        for event in pygame.event.get():
+        for event in pygame.event.get():                
+            
+            # Update Console / Chat
+            chat_console.update(event)
+            
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
                 clear_project()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    ui_click.play()
-                    running = False
-                    pygame.quit()
-                    clear_project()
-                    sys.exit()
+            
+            #if event.type == pygame.KEYDOWN:
+                #if event.key == pygame.K_ESCAPE:
+                    #ui_click.play()
+                    #running = False
+                    #pygame.quit()
+                    #clear_project()
+                    #sys.exit()
+
             if event.type == PARTICLE_EVENT:
                 particle_handler.add_particles()
 
         # Render ------------------------------------------------- #
+        chat_console.draw()
         screen.blit(cursor_img, cursor_rect)
 
         # Update ------------------------------------------------- #

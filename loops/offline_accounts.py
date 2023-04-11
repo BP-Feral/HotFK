@@ -4,7 +4,7 @@ from maintenance import clear_project, load_image, console_push, custom_mouse_hi
 from classes.button import Button
 
 # Offline accounts ------------------------------------------- #
-def offline_account_loop(game_engine, mixer, particle_handler):
+def offline_account_loop(game_engine, mixer, particle_handler, chat_console):
     
     cursor_img, cursor_rect = custom_mouse()
 
@@ -48,6 +48,8 @@ def offline_account_loop(game_engine, mixer, particle_handler):
 
         # Events ------------------------------------------------- #
         for event in pygame.event.get():
+            chat_console.update(event)
+
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
@@ -61,6 +63,7 @@ def offline_account_loop(game_engine, mixer, particle_handler):
                 particle_handler.add_particles()
 
         # Render ------------------------------------------------- #
+        chat_console.draw()
         screen.blit(cursor_img, cursor_rect)
 
         # Update ------------------------------------------------- #
