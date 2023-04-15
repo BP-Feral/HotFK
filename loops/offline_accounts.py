@@ -4,7 +4,7 @@ from maintenance import clear_project, load_image, console_push, custom_mouse_hi
 from classes.button import Button
 
 # Offline accounts ------------------------------------------- #
-def offline_account_loop(game_engine, mixer, particle_handler, chat_console):
+def offline_account_loop(game_engine, particle_handler, chat_console):
     
     cursor_img, cursor_rect = custom_mouse()
 
@@ -23,8 +23,7 @@ def offline_account_loop(game_engine, mixer, particle_handler, chat_console):
     # particles event
     PARTICLE_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(PARTICLE_EVENT, 50)
-    # Souds
-    ui_click = mixer.Sound('resources/sounds/UI_click.mp3')
+    
     # LOOP START
     running = True
     while running:
@@ -44,7 +43,7 @@ def offline_account_loop(game_engine, mixer, particle_handler, chat_console):
             #if i == 0:
                 #mixer.music.stop()
                 
-            ui_click.play()
+            game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
 
         # Events ------------------------------------------------- #
         for event in pygame.event.get():
@@ -57,7 +56,7 @@ def offline_account_loop(game_engine, mixer, particle_handler, chat_console):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    ui_click.play()
+                    game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
                     running = False
             if event.type == PARTICLE_EVENT:
                 particle_handler.add_particles()

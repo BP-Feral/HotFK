@@ -7,9 +7,10 @@ from classes.button import Button
 from loops.offline_accounts import offline_account_loop
 from classes.particle import Particle
 from classes.console import Console
+from loops.options import options_loop
 
 # Menu Loop -------------------------------------------------- #
-def menu_loop(game_engine, mixer):
+def menu_loop(game_engine):
 
     cursor_img, cursor_rect = custom_mouse()
 
@@ -26,8 +27,6 @@ def menu_loop(game_engine, mixer):
     leave = Button(1920-260-104, 900, "resources/images/buttons/quit.png","resources/images/buttons/quit_hover.png", 0)
 
     background = load_image("resources/images/backgrounds/background.png")
-    # Souds
-    ui_click = mixer.Sound('resources/sounds/UI_click.mp3')
 
     # Particles event
     PARTICLE_EVENT = pygame.USEREVENT + 1
@@ -37,7 +36,7 @@ def menu_loop(game_engine, mixer):
     # Console / chat
     chat_console = Console(screen)
 
-    # LOOP START
+    # Loop Start
     running = True
     while running:
 
@@ -54,28 +53,28 @@ def menu_loop(game_engine, mixer):
         if offline_banner.draw(screen):
             if game_engine.debug_mode:
                 console_push("Offline clicked")
-            ui_click.play()
-            offline_account_loop(game_engine, mixer, particle_handler, chat_console)
+            game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
+            offline_account_loop(game_engine, particle_handler, chat_console)
             
         if online_banner.draw(screen):
             if game_engine.debug_mode:
                 console_push("Online clicked")
-            ui_click.play()
+            game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
 
         if discord.draw(screen):
+            game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
             webbrowser.open("https://discord.gg/xcEYBpn2k2")
-            ui_click.play()
 
         if github.draw(screen):
             webbrowser.open("https://github.com/pricob/HotFK")
-            ui_click.play()
+            game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
 
         if options.draw(screen):
-            console_push("Options clicked")
-            ui_click.play()
+            game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
+            options_loop(game_engine, particle_handler, chat_console)
 
         if leave.draw(screen):
-            ui_click.play()
+            game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
             pygame.quit()
             clear_project()
             sys.exit()

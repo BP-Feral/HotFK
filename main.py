@@ -1,7 +1,6 @@
 # Setup Python ----------------------------------------------- #
 from game_engine import gameEngine
 from maintenance import clear_project
-from pygame import mixer
 from loops.disclaimer import disclaimer_loop
 from loops.menu import menu_loop
 
@@ -13,21 +12,18 @@ settings = {
     "fullscreen": True, 
     "offline": True, 
     "debug-mode": True, 
-    'version': "pre-0.0.7a"
+    'version': "pre-0.0.8a"
 }
 
 # Engine Instance -------------------------------------------- #
 game_engine = gameEngine(settings)
 
-# Mixer Instance
-bg_music = mixer.music.load('resources/sounds/Dark_Fog.mp3')
-mixer.music.play(-1)
-
-
+# Play background sound
+game_engine.mixer.music_play('resources/sounds/Dark_Fog.mp3', -1, 2000)
 
 # Run the game ----------------------------------------------- #
 disclaimer_loop(game_engine)
-menu_loop(game_engine, mixer)
+menu_loop(game_engine)
 
 # Clear the project temporary files -------------------------- #
 clear_project()

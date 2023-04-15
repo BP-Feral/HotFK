@@ -2,13 +2,17 @@
 
 ## Changelog
 
+### v. pre 0.0.8a <span style="color:grey">11/Apr/2023</span>
+ - Created a global mixer for easier usage.
+ - New options page.
+
+<details closed>
+<summary><span style="color:grey">Older Releases</span></summary>
+
 ### v. pre 0.0.7a <span style="color:grey">11/Apr/2023</span>
  - Added a chat box that will be used to chat or input commands later on.
  - Game no longer close completely when pressing Escape too many times.
  - Fixed invalid invite link for Discord server.
-
-<details closed>
-<summary><span style="color:grey">Older Releases</span></summary>
 
 ### v. pre-0.0.6a <span style="color:grey">9/Apr/2023</span>
 - Added particles class and particles in the main menu.

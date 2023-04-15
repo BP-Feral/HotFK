@@ -1,5 +1,6 @@
 # Setup Python ----------------------------------------------- #
 from pygame import init, display, time, FULLSCREEN, mouse
+from classes.mixer import Mixer
 
 # CLass Block ------------------------------------------------ #
 class gameEngine:
@@ -13,7 +14,10 @@ class gameEngine:
         self.offline = settings['offline']
         self.debug_mode = settings['debug-mode']
         self.version = settings['version']
-        self.mainClock = time.Clock()
+       
+        self.mainClock = time.Clock() 
+        self.mixer = Mixer()
+
         mouse.set_visible(False)
 
         if self.fullscreen:
