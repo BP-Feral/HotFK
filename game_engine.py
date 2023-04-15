@@ -1,5 +1,5 @@
 # Setup Python ----------------------------------------------- #
-from pygame import init, display, time, FULLSCREEN, mouse
+from pygame import init, display, time, FULLSCREEN, mouse, image
 from classes.mixer import Mixer
 
 # CLass Block ------------------------------------------------ #
@@ -24,3 +24,7 @@ class gameEngine:
             self.screen = display.set_mode((self.width, self.height), FULLSCREEN)
         else:
             self.screen = display.set_mode((self.width, self.height))
+        
+        game_icon = image.load('resources/images/icons/icon.ico')
+        display.set_icon(game_icon)
+        display.set_caption("Heroes of the Fallen Kingdom")

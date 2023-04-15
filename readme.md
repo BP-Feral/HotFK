@@ -41,6 +41,22 @@
 
 </details>
 
+## How to install
+
+Currently there is no installation file, you have to compile a copy of the game on your own. To do that you need the following:
+
+ - python 3.11.2 or higher installer
+ - `pyinstaller` module installed using `pip install pyinstaller`
+
+after that you have to run the following command in the project folder:
+
+`pyinstaller main.py` this will create an executable for the game to run. 
+
+if you need all the intended fancy stuff such as the name, no console and icon run the following command instead:
+
+`pyinstaller main.py --name "Heroes of the Fallen Kingdom" --noconsole --icon "resources/images/icons/icon.ico"`
+
+
 ## Contact
 ### Discord or email
 Send us a direct message at `Rioter Neeko#0646` / `Yserion#7716` or join us using [this server invite](https://discord.gg/xcEYBpn2k2).
