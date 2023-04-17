@@ -63,6 +63,7 @@ if you need all the intended fancy stuff such as the name, no console and icon r
 
 `pyinstaller main.py --name "Heroes of the Fallen Kingdom" --noconsole --icon "resources/images/icons/icon.ico"`
 
+### **when the command finishes, copy the `resources` and `lib` folder to the installation path (in the same directory as the game executable)**
 
 ## Contact
 ### Discord or email
