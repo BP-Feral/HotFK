@@ -54,5 +54,5 @@ def disclaimer_loop(game_engine):
 
 
 # Update ----------------------------------------------------- #
-        pygame.display.flip()
-        mainClock.tick(game_engine.fps)
+        pygame.display.update()
+        mainClock.tick(game_engine.settings.get_fps())

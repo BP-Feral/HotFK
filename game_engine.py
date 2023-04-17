@@ -5,35 +5,34 @@ import uuid
 
 from pygame import init, display, time, FULLSCREEN, mouse, image
 from classes.mixer import Mixer
+from classes.settings import Settings
 
 
 # CLass Block ------------------------------------------------ #
 class gameEngine:
-    def __init__(self, settings):
-        
+    def __init__(self):
+
         init()
 
         # Game settings
-        self.fps = settings['fps']
-        self.width = settings['default-width']
-        self.height = settings['default-height']
-        self.fullscreen = settings['fullscreen']
-        self.offline = settings['offline']
-        self.debug_mode = settings['debug-mode']
-        self.version = settings['version']
+        self.width = int
+        self.height = int
+        
+        self.settings = Settings()
+        #self.update_game_settings()
 
         # Objects
         self.mainClock = time.Clock() 
-        self.mixer = Mixer()
+        self.mixer = Mixer(self.settings)
 
         # Hide mouse
         mouse.set_visible(False)
 
         # Check for fullscreen setting
-        if self.fullscreen:
-            self.screen = display.set_mode((self.width, self.height), FULLSCREEN)
+        if self.settings.get_fullscreen():
+            self.screen = display.set_mode((self.settings.get_width(), self.settings.get_height()), FULLSCREEN)
         else:
-            self.screen = display.set_mode((self.width, self.height))
+            self.screen = display.set_mode((self.settings.get_width(), self.settings.get_height()))
 
         # Set game icon and title
         game_icon = image.load('resources/images/icons/icon.ico')
@@ -48,11 +47,11 @@ class gameEngine:
         # setup activity
         self.activity = dsdk.Activity()
         self.activity.state = "Just started"
-        
+
         # party settings
         self.activity.party.id = str(uuid.uuid4())
-        self.activity.party.size.current_size = 1
-        self.activity.party.size.max_size = 4
+        # self.activity.party.size.current_size = 1
+        # self.activity.party.size.max_size = 4
         self.activity.secrets.join = str(uuid.uuid4())
         self.activity.timestamps.start = int(t.time())
 
@@ -84,3 +83,12 @@ class gameEngine:
 
     def clear_discord_activity(self):
         self.activity_manager.clear_activity
+    
+    #def update_game_settings(self):
+    #    self.fps = self.settings.get_fps()
+    #    self.width = self.settings.get_width()
+    #    self.height = self.settings.get_height()
+    #    self.fullscreen = self.settings.get_fullscreen()
+    #    self.offline = self.settings.get_offline()
+    #    self.debug_mode = self.settings.get_debug_mode()
+    #    self.version = self.settings.get_version()

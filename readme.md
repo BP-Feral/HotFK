@@ -2,15 +2,20 @@
 
 ## Changelog
 
+### v. pre 0.0.10a <span style="color:grey">18/Apr/2023</span>
+    Settings Update! Everything is loaded and saved with dynamic configuration file!
+ - Settings are now automatically loaded.
+ - Options to save or reset settings.
+
+<details closed>
+<summary><span style="color:grey">Older Releases</span></summary>
+
 ### v. pre 0.0.9a <span style="color:grey">17/Apr/2023</span>
  - Implemented Discord SDK for activity status and party management.
  - Polishing things up before first content update!
  - Made the code more readable and removed obsolete parts.
  - Added a few console commands to controll music and sfx.
  - Started to work on Options (INCOMPLETE).
-
-<details closed>
-<summary><span style="color:grey">Older Releases</span></summary>
 
 ### v. pre 0.0.8a <span style="color:grey">11/Apr/2023</span>
  - Created a global mixer for easier usage.

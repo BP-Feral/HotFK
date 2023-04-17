@@ -18,10 +18,10 @@ def offline_account_loop(game_engine, particle_handler, chat_console):
     background = load_image("resources/images/backgrounds/background.png")
 
     # Load Buttons
-    b0 = Button(1450, 220, "resources/images/buttons/new.png", "resources/images/buttons/new_hover.png", 2)
-    b1 = Button(1450, 220 + 1 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 2)
-    b2 = Button(1450, 220 + 2 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 2)
-    b3 = Button(1450, 220 + 3 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 2)
+    b0 = Button(1450, 220, "resources/images/buttons/new.png", "resources/images/buttons/new_hover.png", 2, 1)
+    b1 = Button(1450, 220 + 1 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 2, 1)
+    b2 = Button(1450, 220 + 2 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 2, 1)
+    b3 = Button(1450, 220 + 3 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 2, 1)
     buttons_list = [b0, b1, b2, b3]
 
     # Particles event
@@ -84,5 +84,5 @@ def offline_account_loop(game_engine, particle_handler, chat_console):
 
 
 # Update ----------------------------------------------------- #
-        pygame.display.flip()
-        mainClock.tick(game_engine.fps)
+        pygame.display.update()
+        mainClock.tick(game_engine.settings.get_fps())

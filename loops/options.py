@@ -1,5 +1,5 @@
 # Setup Python ----------------------------------------------- #
-from maintenance import load_image, custom_mouse, settings
+from maintenance import load_image, custom_mouse
 from classes.button import Button
 
 import pygame
@@ -18,8 +18,12 @@ def options_loop(game_engine, particle_handler, chat_console):
     background = load_image("resources/images/backgrounds/background.png")
 
     # Load Buttons
-    button_up = Button(1000, 400, "resources/images/buttons/up.png", "resources/images/buttons/up_hover.png", 2)
-    #### TODO button_down = Button(1000, 400, "resources/images/buttons/up.png", "resources/images/buttons/up_hover.png", 2)
+    button_up = Button(1250, 140, "resources/images/buttons/up.png", "resources/images/buttons/up_hover.png", 2, 0.5)
+    button_down = Button(1300, 140, "resources/images/buttons/up.png", "resources/images/buttons/up_hover.png", 2, 0.5)
+    button_down.flip("horizontal")
+
+    button_save = Button(1178, 800, "resources/images/buttons/save.png", "resources/images/buttons/save_hover.png", 2, 1)
+    button_reset = Button(978, 800, "resources/images/buttons/reset.png", "resources/images/buttons/reset_hover.png", 2, 1)
 
     # Particles Event
     PARTICLE_EVENT = pygame.USEREVENT + 1
@@ -30,7 +34,7 @@ def options_loop(game_engine, particle_handler, chat_console):
     options_rect = pygame.Rect(1920 / 2 - 400, 100, 800, 30)
 
 
-# Loop Start  ------------------------------------------------ #
+# Loop Start ------------------------------------------------- #
     running = True
     while running:
 
@@ -50,10 +54,27 @@ def options_loop(game_engine, particle_handler, chat_console):
         # Draw Particles
         particle_handler.emit(screen)
 
-        # Draw Buttons
+        # Draw Buttons (Music Volume)
         if button_up.draw(screen):
-            settings["sound-volume"] = float(float(settings["music-volume"]) - 0.1)
-            print(settings["sound-volume"])
+            game_engine.settings.set_music_volume(round( game_engine.settings.get_music_volume() + 0.1, 1))
+            if game_engine.settings.get_music_volume() > 1:
+                game_engine.settings.set_music_volume(1)
+            print(game_engine.settings.get_music_volume())
+        
+        if button_down.draw(screen):
+            game_engine.settings.set_music_volume(round( game_engine.settings.get_music_volume() - 0.1, 1))
+            if game_engine.settings.get_music_volume() < 0:
+                game_engine.settings.set_music_volume(0)
+            print(game_engine.settings.get_music_volume())
+
+        # Draw Buttons (Save and Reset)
+        if button_reset.draw(screen):
+            game_engine.settings.reset()
+            print("RESET")
+            print(game_engine.settings.get_music_volume())
+        if button_save.draw(screen):
+            game_engine.settings.write_to_file()
+            print("SAVE")
 
 
 # Events ----------------------------------------------------- #
@@ -71,11 +92,11 @@ def options_loop(game_engine, particle_handler, chat_console):
 # Render ----------------------------------------------------- #
         pygame.draw.rect(screen, (50, 50, 50), options_rect, 2)
 
-        text_surface = base_font.render("Volume", True, (160, 0, 160))
+        text_surface = base_font.render("Volume", True, (160, 120, 160))
         screen.blit(text_surface, (options_rect.x + options_rect.width // 2 - text_surface.get_width() // 2, options_rect.y + 5))
 
-        music_volume_value = float(settings["music-volume"])
-        music_volume = base_font.render(f"Music Volume: {int(music_volume_value * 10)}", True, (255, 255 ,255))
+        music_volume_value = float(game_engine.settings.get_music_volume())
+        music_volume = base_font.render(f"Music Volume: {int(music_volume_value * 10)}", True, (120, 120 ,120))
         screen.blit(music_volume, (options_rect.x + options_rect.width // 2 - music_volume.get_width() // 2, options_rect.y + 50))
 
         chat_console.draw()
@@ -83,5 +104,5 @@ def options_loop(game_engine, particle_handler, chat_console):
 
 
 # Update ----------------------------------------------------- #
-        pygame.display.flip()
-        mainClock.tick(game_engine.fps)
+        pygame.display.update()
+        mainClock.tick(game_engine.settings.get_fps())

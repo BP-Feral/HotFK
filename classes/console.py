@@ -1,22 +1,23 @@
 # Setup Python ----------------------------------------------- #
 import pygame
 
-from maintenance import console_push, settings
+from maintenance import console_push
 
 
 # CLass Block ------------------------------------------------ #
 class Console:
-    def __init__(self, screen):
+    def __init__(self, screen, settings):
 
         # Get context
         self.screen = screen
-        
+        self.settings = settings
+
         # Initialize a font
         self.base_font = pygame.font.Font(None, 32)
         self.user_text = "[all]: type here - or use /help"
 
         # Cogs
-        self.input_rect = pygame.Rect(1, 1080 - 35, 140, 32) #x,y,w,h
+        self.input_rect = pygame.Rect(1, 1080 - 35, 140, 32)
         self.active = False
         self.allowed_chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 
                               'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
@@ -70,12 +71,12 @@ class Console:
                             if self.user_text[:6] == "/music":
                                 args = self.user_text.split(' ')
                                 if args[1] == "volume":
-                                    settings['music-volume'] = args[2]
+                                    self.settings.set_music_volume(round( float(args[2]), 1))
                                 
                             elif self.user_text[:6] == "/sound":
                                 args = self.user_text.split(' ')
                                 if args[1] == "volume":
-                                    settings['sound-volume'] = args[2]
+                                    self.settings.set_sound_volume(round( float(args[2]), 1))
                         except:
                             console_push("Invalid music setting - must be between 0 and 1")
 

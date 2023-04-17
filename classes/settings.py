@@ -5,49 +5,74 @@ import configparser
 # CLass Block ------------------------------------------------ #
 class Settings:
     def __init__(self):
-        pass
-    
+        self.config = configparser.ConfigParser()
+        self.config.read('./resources/configurations.ini')
+
+
+# Functions -------------------------------------------------- #
     def reset(self):
-        
-        config_file = configparser.ConfigParser()
 
         # Add Section
-        config_file.add_section("Video")
-
-        # Add settings to section
-        config_file.set("Video", "fps", "60")
-        config_file.set("Video", "default-width", "1920")
-        config_file.set("Video", "default-height", "1080")
-        config_file.set("Video", "fullscreen", "True")
-
-        # Add Section
-        config_file.add_section("Multiplayer")
-        # Add settings to section
-        config_file.set("Multiplayer", "offline", "True")
+        self.config["VIDEO"] = {
+            'fps': '60',
+            "default-width": "1920",
+            "default-height": "1080",
+            "fullscreen": "True"
+        }
 
         # Add Section
-        config_file.add_section("Sound")
-        # Add settings to section
-        config_file.set("Sound", "sound-volume", "1")
-        config_file.set("Sound", "music-volume", "1")
+        self.config["MULTIPLAYER"] = {
+            'offline': "True"
+        }
 
         # Add Section
-        config_file.add_section("Dev")
-        # Add settings to section
-        config_file.set("Dev", "version", "pre-0.0.9a")
-        config_file.set("Dev", "debug_mode", "True")
+        self.config["SOUND"] = {
+            "sound-volume": "0.5",
+            "music-volume": "0.3"
+        }
 
-        with open(r"configurations.ini", 'w') as configfileObj:
-            config_file.write(configfileObj)
-            configfileObj.flush()
-            configfileObj.close()
+        # Add Section
+        self.config["DEV"] = {
+            "version": "pre-0.0.9a",
+            "debug_mode": "True"
+        }
 
-        print("Config file 'configurations.ini' created")
+        # Write to file
+        self.write_to_file()
+    
+    def write_to_file(self):
+        with open("./resources/configurations.ini", 'w') as configfile:
+            self.config.write(configfile)
 
-        # PRINT FILE CONTENT
-        read_file = open("configurations.ini", "r")
-        content = read_file.read()
-        print("Content of the config file are:\n")
-        print(content)
-        read_file.flush()
-        read_file.close()
+# Getters ---------------------------------------------------- #
+    def get_fps(self):
+        return int(self.config['VIDEO']['fps'])
+
+    def get_width(self):
+        return int(self.config['VIDEO']['default-width'])
+
+    def get_height(self):
+        return int(self.config['VIDEO']['default-height'])
+
+    def get_fullscreen(self):
+        return self.config['VIDEO']['fullscreen']
+
+    def get_offline(self):
+        return self.config['MULTIPLAYER']['offline']
+
+    def get_sound_volume(self):
+        return round( float(self.config['SOUND']['sound-volume']), 1)
+
+    def get_music_volume(self):
+        return round( float(self.config['SOUND']['music-volume']), 1)
+
+    def get_version(self):
+        return self.config['DEV']['version']
+
+    def get_debug_mode(self):
+        return self.config['DEV']['debug_mode']
+
+
+# Setters ---------------------------------------------------- #
+    def set_music_volume(self, value):
+        self.config['SOUND']['music-volume'] = str(value)

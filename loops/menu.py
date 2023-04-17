@@ -23,14 +23,14 @@ def menu_loop(game_engine):
     background = load_image("resources/images/backgrounds/background.png")
 
     # Load Buttons
-    offline_banner = Button(450, 270, "resources/images/buttons/offline_banner.png", "resources/images/buttons/offline_banner_hover.png", 5)
-    online_banner = Button(1070, 270, "resources/images/buttons/online_banner.png", "resources/images/buttons/online_banner_hover.png", 5)
+    offline_banner = Button(450, 270, "resources/images/buttons/offline_banner.png", "resources/images/buttons/offline_banner_hover.png", 5, 1)
+    online_banner = Button(1070, 270, "resources/images/buttons/online_banner.png", "resources/images/buttons/online_banner_hover.png", 5, 1)
 
-    discord = Button(400, 900, "resources/images/buttons/discord.png", "resources/images/buttons/discord_hover.png", 0)
-    github = Button(260, 900, "resources/images/buttons/github.png","resources/images/buttons/github_hover.png", 0)
+    discord = Button(400, 900, "resources/images/buttons/discord.png", "resources/images/buttons/discord_hover.png", 0, 1)
+    github = Button(260, 900, "resources/images/buttons/github.png","resources/images/buttons/github_hover.png", 0, 1)
 
-    options = Button(1920-400-104, 900, "resources/images/buttons/options.png", "resources/images/buttons/options_hover.png", 0)
-    leave = Button(1920-260-104, 900, "resources/images/buttons/quit.png","resources/images/buttons/quit_hover.png", 0)
+    options = Button(1920-400-104, 900, "resources/images/buttons/options.png", "resources/images/buttons/options_hover.png", 0, 1)
+    leave = Button(1920-260-104, 900, "resources/images/buttons/quit.png","resources/images/buttons/quit_hover.png", 0, 1)
 
     # Particles event
     PARTICLE_EVENT = pygame.USEREVENT + 1
@@ -38,7 +38,7 @@ def menu_loop(game_engine):
     particle_handler = Particle()
 
     # Console / Chat
-    chat_console = Console(screen)
+    chat_console = Console(screen, game_engine.settings)
 
 
 # Loop Start ------------------------------------------------- #
@@ -63,14 +63,14 @@ def menu_loop(game_engine):
 
         # Draw buttons
         if offline_banner.draw(screen):
-            if game_engine.debug_mode:
+            if game_engine.settings.get_debug_mode():
                 console_push("Offline clicked")
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
             offline_account_loop(game_engine, particle_handler, chat_console)
             game_engine.update_discord_status("Waiting in the menu")
 
         if online_banner.draw(screen):
-            if game_engine.debug_mode:
+            if game_engine.settings.get_debug_mode():
                 console_push("Online clicked")
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
 
@@ -116,5 +116,5 @@ def menu_loop(game_engine):
 
 
 # Update ----------------------------------------------------- #
-        pygame.display.flip()
-        mainClock.tick(game_engine.fps)
+        pygame.display.update()
+        mainClock.tick(game_engine.settings.get_fps())

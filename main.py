@@ -3,11 +3,10 @@ from game_engine import gameEngine
 from maintenance import clear_project
 from loops.disclaimer import disclaimer_loop
 from loops.menu import menu_loop
-from maintenance import settings
 
 
 # Engine Instance -------------------------------------------- #
-game_engine = gameEngine(settings)
+game_engine = gameEngine()
 game_engine.update_discord_status("Just Started")
 
 
