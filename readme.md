@@ -2,12 +2,19 @@
 
 ## Changelog
 
-### v. pre 0.0.8a <span style="color:grey">11/Apr/2023</span>
- - Created a global mixer for easier usage.
- - New options page.
+### v. pre 0.0.9a <span style="color:grey">17/Apr/2023</span>
+ - Implemented Discord SDK for activity status and party management.
+ - Polishing things up before first content update!
+ - Made the code more readable and removed obsolete parts.
+ - Added a few console commands to controll music and sfx.
+ - Started to work on Options (INCOMPLETE).
 
 <details closed>
 <summary><span style="color:grey">Older Releases</span></summary>
+
+### v. pre 0.0.8a <span style="color:grey">11/Apr/2023</span>
+ - Created a global mixer for easier usage.
+ - New options page.
 
 ### v. pre 0.0.7a <span style="color:grey">11/Apr/2023</span>
  - Added a chat box that will be used to chat or input commands later on.
@@ -90,14 +97,17 @@ We will continue to work on further updates and a way to deliver a beta version 
 - [x] Uninterupted music between scenes
 - [x] Responsive GUI
 - [x] Animated Main Menu
+- [x] Discord SDK implemented
 
 ### Next
 - [ ] Notifications System
 - [ ] Fix in-game Disclaimer
 - [ ] Fix button collisions
+- [ ] Finish Options settings
+- [ ] Discord Party (join / invite)
+- [ ] Co-op playing
 
 ### Future
-- [ ] Options page
 - [ ] Rework Font System
 - [ ] Creative / Sandbox
 - [ ] Commands to support Creative / Sandbox

@@ -3,27 +3,24 @@ from game_engine import gameEngine
 from maintenance import clear_project
 from loops.disclaimer import disclaimer_loop
 from loops.menu import menu_loop
+from maintenance import settings
 
-# Init ------------------------------------------------------- #
-settings = {
-    "fps": 60, 
-    "default-width": 1920, 
-    "default-height": 1080, 
-    "fullscreen": True, 
-    "offline": True, 
-    "debug-mode": True, 
-    'version': "pre-0.0.8a"
-}
 
 # Engine Instance -------------------------------------------- #
 game_engine = gameEngine(settings)
+game_engine.update_discord_status("Just Started")
 
-# Play background sound
+
+# Start backround mixer -------------------------------------- #
 game_engine.mixer.music_play('resources/sounds/Dark_Fog.mp3', -1, 2000)
+
 
 # Run the game ----------------------------------------------- #
 disclaimer_loop(game_engine)
 menu_loop(game_engine)
 
-# Clear the project temporary files -------------------------- #
+
+# Clear temporary project files ------------------------------ #
+game_engine.clear_discord_activity() # stop activity
 clear_project()
+exit()

@@ -9,14 +9,20 @@ from classes.particle import Particle
 from classes.console import Console
 from loops.options import options_loop
 
+
 # Menu Loop -------------------------------------------------- #
 def menu_loop(game_engine):
 
+    # Get Context
+    game_engine.update_discord_status("Waiting in the menu")
     cursor_img, cursor_rect = custom_mouse()
-
     screen = pygame.display.get_surface()
     mainClock = game_engine.mainClock
 
+    # Load Background
+    background = load_image("resources/images/backgrounds/background.png")
+
+    # Load Buttons
     offline_banner = Button(450, 270, "resources/images/buttons/offline_banner.png", "resources/images/buttons/offline_banner_hover.png", 5)
     online_banner = Button(1070, 270, "resources/images/buttons/online_banner.png", "resources/images/buttons/online_banner_hover.png", 5)
 
@@ -26,36 +32,43 @@ def menu_loop(game_engine):
     options = Button(1920-400-104, 900, "resources/images/buttons/options.png", "resources/images/buttons/options_hover.png", 0)
     leave = Button(1920-260-104, 900, "resources/images/buttons/quit.png","resources/images/buttons/quit_hover.png", 0)
 
-    background = load_image("resources/images/backgrounds/background.png")
-
     # Particles event
     PARTICLE_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(PARTICLE_EVENT, 100)
     particle_handler = Particle()
 
-    # Console / chat
+    # Console / Chat
     chat_console = Console(screen)
 
-    # Loop Start
+
+# Loop Start ------------------------------------------------- #
     running = True
     while running:
 
-        mx, my = pygame.mouse.get_pos()
-        cursor_rect.center = (mx, my)
+        # Call required updates
+        game_engine.updates()
 
         # Reset Frame
         screen.fill(0)
-        # Position Background
+
+        # Mouse
+        mx, my = pygame.mouse.get_pos()
+        cursor_rect.center = (mx, my)
+
+        # Set Background
         screen.blit(background, (mx // 50 - 38, my // 50 - 21))
+
         # Draw Particles
-        particle_handler.emit(screen)        
+        particle_handler.emit(screen)
+
         # Draw buttons
         if offline_banner.draw(screen):
             if game_engine.debug_mode:
                 console_push("Offline clicked")
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
             offline_account_loop(game_engine, particle_handler, chat_console)
-            
+            game_engine.update_discord_status("Waiting in the menu")
+
         if online_banner.draw(screen):
             if game_engine.debug_mode:
                 console_push("Online clicked")
@@ -72,6 +85,7 @@ def menu_loop(game_engine):
         if options.draw(screen):
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
             options_loop(game_engine, particle_handler, chat_console)
+            game_engine.update_discord_status("Waiting in the menu")
 
         if leave.draw(screen):
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
@@ -79,33 +93,28 @@ def menu_loop(game_engine):
             clear_project()
             sys.exit()
 
-        # Events ------------------------------------------------- #
-        for event in pygame.event.get():                
-            
+
+# Events ----------------------------------------------------- #
+        for event in pygame.event.get():
+
             # Update Console / Chat
             chat_console.update(event)
-            
+
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
                 clear_project()
                 sys.exit()
-            
-            #if event.type == pygame.KEYDOWN:
-                #if event.key == pygame.K_ESCAPE:
-                    #ui_click.play()
-                    #running = False
-                    #pygame.quit()
-                    #clear_project()
-                    #sys.exit()
 
             if event.type == PARTICLE_EVENT:
                 particle_handler.add_particles()
 
-        # Render ------------------------------------------------- #
+
+# Render ----------------------------------------------------- #
         chat_console.draw()
         screen.blit(cursor_img, cursor_rect)
 
-        # Update ------------------------------------------------- #
+
+# Update ----------------------------------------------------- #
         pygame.display.flip()
         mainClock.tick(game_engine.fps)
