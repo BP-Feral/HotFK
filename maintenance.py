@@ -1,6 +1,7 @@
 # Setup Python ----------------------------------------------- #
 import shutil
 import os
+import subprocess
 
 from pygame import image, transform
 
@@ -46,6 +47,16 @@ def console_push(message):
     # TODO display console messages in game
     print(message)
 
+
+# Check if a process is running (Discord) -------------------- #
+def process_exists(process_name):
+    call = 'TASKLIST', '/FI', 'imagename eq %s' % process_name
+    # use buildin check_output right away
+    output = subprocess.check_output(call).decode()
+    # check in last line for process name
+    last_line = output.strip().split('\r\n')[-1]
+    # because Fail message could be translated
+    return last_line.lower().startswith(process_name.lower())
 
 # Remove cache ----------------------------------------------- #
 def clear_project():

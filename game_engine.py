@@ -6,7 +6,7 @@ import uuid
 from pygame import init, display, time, FULLSCREEN, mouse, image
 from classes.mixer import Mixer
 from classes.settings import Settings
-
+from maintenance import process_exists
 
 # CLass Block ------------------------------------------------ #
 class gameEngine:
@@ -25,6 +25,14 @@ class gameEngine:
         self.mainClock = time.Clock() 
         self.mixer = Mixer(self.settings)
 
+        # Is discord open?
+        if process_exists("discord.exe"):
+            self.discord_active = True
+            print("Discord running")
+        else:
+            print("Discord is not running")
+            self.discord_active = False
+
         # Hide mouse
         mouse.set_visible(False)
 
@@ -39,27 +47,27 @@ class gameEngine:
         display.set_caption("Heroes of the Fallen Kingdom")
         display.set_icon(game_icon)
 
-    ##### discord rpc #####
-        discord_application_id = 1097332146923913288
-        self.app = dsdk.Discord(discord_application_id, dsdk.CreateFlags.default)
-        self.activity_manager = self.app.get_activity_manager()
+        if self.discord_active:
+            discord_application_id = 1097332146923913288
+            self.app = dsdk.Discord(discord_application_id, dsdk.CreateFlags.default)
+            self.activity_manager = self.app.get_activity_manager()
+            
+            # setup activity
+            self.activity = dsdk.Activity()
+            self.activity.state = "Just started"
 
-        # setup activity
-        self.activity = dsdk.Activity()
-        self.activity.state = "Just started"
+            # party settings
+            self.activity.party.id = str(uuid.uuid4())
+            # self.activity.party.size.current_size = 1
+            # self.activity.party.size.max_size = 4
+            self.activity.secrets.join = str(uuid.uuid4())
+            self.activity.timestamps.start = int(t.time())
 
-        # party settings
-        self.activity.party.id = str(uuid.uuid4())
-        # self.activity.party.size.current_size = 1
-        # self.activity.party.size.max_size = 4
-        self.activity.secrets.join = str(uuid.uuid4())
-        self.activity.timestamps.start = int(t.time())
+            # activity icon        
+            self.activity.assets.large_image = "https://i.imgur.com/thAl2Ll.png"
 
-        # activity icon        
-        self.activity.assets.large_image = "https://i.imgur.com/thAl2Ll.png"
-        
-        # update the activity
-        self.activity_manager.update_activity(self.activity, lambda result: self.debug_callback("update_activity", result))
+            # update the activity
+            self.activity_manager.update_activity(self.activity, lambda result: self.debug_callback("update_activity", result))
 
 
 # Callbacks -------------------------------------------------- #
@@ -75,15 +83,21 @@ class gameEngine:
         self.mixer.update_music_volume()
         self.mixer.update_sound_volume()
 
-        self.app.run_callbacks()
+        if self.discord_active:
+            try:
+                self.app.run_callbacks()
+            except:
+                self.discord_active = False
 
     def update_discord_status(self, state):
-        self.activity.state = state
-        self.activity_manager.update_activity(self.activity, lambda result: self.debug_callback("update_activity", result))
+        if self.discord_active:
+            self.activity.state = state
+            self.activity_manager.update_activity(self.activity, lambda result: self.debug_callback("update_activity", result))
 
     def clear_discord_activity(self):
-        self.activity_manager.clear_activity
-    
+        if self.discord_active:
+            self.activity_manager.clear_activity
+
     #def update_game_settings(self):
     #    self.fps = self.settings.get_fps()
     #    self.width = self.settings.get_width()

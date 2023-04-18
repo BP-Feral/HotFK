@@ -7,7 +7,8 @@ from loops.menu import menu_loop
 
 # Engine Instance -------------------------------------------- #
 game_engine = gameEngine()
-game_engine.update_discord_status("Just Started")
+if game_engine.discord_active == True:
+    game_engine.update_discord_status("Just Started")
 
 
 # Start backround mixer -------------------------------------- #
