@@ -2,18 +2,21 @@
 import pygame
 
 from maintenance import console_push
-
+from scenes.tutorial import tutorial_loop
 
 # CLass Block ------------------------------------------------ #
 class Console:
-    def __init__(self, screen, settings):
+    def __init__(self, screen, game_engine, particle_handler):
 
         # Get context
         self.screen = screen
-        self.settings = settings
+        self.settings = game_engine.settings
+        self.mixer = game_engine.mixer
+        self.game_engine = game_engine
+        self.particle_handler = particle_handler
 
         # Initialize a font
-        self.base_font = pygame.font.Font(None, 32)
+        self.base_font = pygame.font.Font('resources/fonts/VcrOsdMono.ttf', 20)
         self.user_text = "[all]: type here - or use /help"
 
         # Cogs
@@ -23,7 +26,7 @@ class Console:
                               'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
                               '\\', '!', '?', '.', ',', "'", '"', '@', '#', '%', '^', '&', '*', '-', '_', '+', '=', '|', ':', ';', '<', '>', 
                               '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '(', ')', '[', ']', '{', '}']
-        
+
         # Colors
         self.text_color = pygame.Color(255, 255, 255)
         self.color_active = pygame.Color('lightskyblue3')
@@ -37,7 +40,7 @@ class Console:
 
         # Select by mouse
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.input_rect.collidepoint(event.pos):
+            if self.input_rect.collidepoint(event.pos) and self.render:
                 if self.active == False:
                     self.user_text = ""
                 self.active = True
@@ -65,23 +68,32 @@ class Console:
                 elif event.key == pygame.K_RETURN:
                     if self.user_text != "":
                         console_push(f"[Console][USER][CHAT]: {self.user_text}")
-                        
+
                         # Slash Commands
                         try:
                             if self.user_text[:6] == "/music":
                                 args = self.user_text.split(' ')
                                 if args[1] == "volume":
-                                    self.settings.set_music_volume(round( float(args[2]), 1))
-                                
+                                    self.settings.set_music_volume(round( float(args[2])/10, 1))
+                                    self.mixer.update_music_volume()
+
                             elif self.user_text[:6] == "/sound":
                                 args = self.user_text.split(' ')
                                 if args[1] == "volume":
-                                    self.settings.set_sound_volume(round( float(args[2]), 1))
-                        except:
-                            console_push("Invalid music setting - must be between 0 and 1")
+                                    self.settings.set_sound_volume(round( float(args[2])/10, 1))
+                                    self.mixer.update_sound_volume()
 
-                        # Clear the box
-                        self.user_text = ""
+                            elif self.user_text[:6] == "/debug":
+                                args = self.user_text.split(' ')
+                                if args[1] == "new" and args [2] == "room":
+                                    self.user_text = ""
+                                    tutorial_loop(self.game_engine, self.particle_handler, self)
+
+                            # Clear the box
+                            self.user_text = ""
+                        except:
+                            console_push("Chat error")
+                            self.user_text = ""
                     return
 
                 # Handle Backspace key
@@ -105,20 +117,27 @@ class Console:
 
 
 # Functions -------------------------------------------------- #
+    def is_active(self):
+        return self.active
+
+
+# Render ----------------------------------------------------- #
     def draw(self):
 
         if self.active:
+            self.render = True
             self.color = self.color_active
             self.text_color = (255, 255, 255)
 
         else:
+            self.render = self.settings.get_console_toggle()
             self.color = self.color_passive
             self.text_color = self.color_passive
-            self.user_text = "[all]: type here - or use /help"
+            self.user_text = "[all]: type or use /help"
 
         text_surface = self.base_font.render(self.user_text, True, self.text_color)
         self.input_rect.w = max(text_surface.get_width() + 30, 350)
 
-        # Render
-        pygame.draw.rect(self.screen, self.color, self.input_rect, 2)
-        self.screen.blit(text_surface, (self.input_rect.x + 5, self.input_rect.y + 5))
+        if self.render:
+            pygame.draw.rect(self.screen, self.color, self.input_rect, 2)
+            self.screen.blit(text_surface, (self.input_rect.x + 5, self.input_rect.y + 5))

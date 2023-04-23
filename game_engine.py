@@ -8,6 +8,7 @@ from classes.mixer import Mixer
 from classes.settings import Settings
 from maintenance import process_exists
 
+
 # CLass Block ------------------------------------------------ #
 class gameEngine:
     def __init__(self):
@@ -17,7 +18,7 @@ class gameEngine:
         # Game settings
         self.width = int
         self.height = int
-        
+    
         self.settings = Settings()
         #self.update_game_settings()
 
@@ -47,6 +48,7 @@ class gameEngine:
         display.set_caption("Heroes of the Fallen Kingdom")
         display.set_icon(game_icon)
 
+        # Initialize discord activity if Discord is running
         if self.discord_active:
             discord_application_id = 1097332146923913288
             self.app = dsdk.Discord(discord_application_id, dsdk.CreateFlags.default)
@@ -58,8 +60,8 @@ class gameEngine:
 
             # party settings
             self.activity.party.id = str(uuid.uuid4())
-            # self.activity.party.size.current_size = 1
-            # self.activity.party.size.max_size = 4
+            self.activity.party.size.current_size = 1
+            self.activity.party.size.max_size = 4
             self.activity.secrets.join = str(uuid.uuid4())
             self.activity.timestamps.start = int(t.time())
 
@@ -80,9 +82,6 @@ class gameEngine:
 
 # Updates ---------------------------------------------------- #
     def updates(self):
-        self.mixer.update_music_volume()
-        self.mixer.update_sound_volume()
-
         if self.discord_active:
             try:
                 self.app.run_callbacks()
@@ -97,12 +96,3 @@ class gameEngine:
     def clear_discord_activity(self):
         if self.discord_active:
             self.activity_manager.clear_activity
-
-    #def update_game_settings(self):
-    #    self.fps = self.settings.get_fps()
-    #    self.width = self.settings.get_width()
-    #    self.height = self.settings.get_height()
-    #    self.fullscreen = self.settings.get_fullscreen()
-    #    self.offline = self.settings.get_offline()
-    #    self.debug_mode = self.settings.get_debug_mode()
-    #    self.version = self.settings.get_version()

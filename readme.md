@@ -2,13 +2,21 @@
 
 ## Changelog
 
+### v. pre 0.0.11a <span style="color:grey">23/Apr/2023<span>
+ - New fonts for the game.
+ - Option to toggle chat/console visibility.
+ - New sandbox area (will be used for debugging mostly).
+ - Notification widget to dispaly text on screen.
+ - Modified the structe and the way that the game loads components.
+ - Added Scenes and Camera with the posibility to follow an Object or Entity.
+
+<details closed>
+<summary><span style="color:grey">Older Releases</span></summary>
+
 ### v. pre 0.0.10a <span style="color:grey">18/Apr/2023</span>
     Settings Update! Everything is loaded and saved with dynamic configuration file!
  - Settings are now automatically loaded.
  - Options to save or reset settings.
-
-<details closed>
-<summary><span style="color:grey">Older Releases</span></summary>
 
 ### v. pre 0.0.9a <span style="color:grey">17/Apr/2023</span>
  - Implemented Discord SDK for activity status and party management.

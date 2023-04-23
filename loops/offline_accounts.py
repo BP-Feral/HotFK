@@ -3,6 +3,7 @@ import pygame, sys
 
 from maintenance import clear_project, load_image, console_push, custom_mouse
 from classes.button import Button
+from scenes.tutorial import tutorial_loop
 
 
 # Character Seleection Loop ---------------------------------- #
@@ -56,7 +57,15 @@ def offline_account_loop(game_engine, particle_handler, chat_console):
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
 
             if i == 0:
-                game_engine.update_discord_status("Zone One: White Bridge")
+                tutorial_loop(game_engine, particle_handler, chat_console)
+                #game_engine.update_discord_status("Zone One: White Bridge")
+
+            if i == 1:
+                game_engine.update_discord_status("Free Zone: Serthorne Village")
+            if i == 2:
+                game_engine.update_discord_status("Zone Two: Ailhelm Forest")
+            if i == 3:
+                game_engine.update_discord_status("Blackridge: Shadow Tower")
 
 
 # Events ----------------------------------------------------- #

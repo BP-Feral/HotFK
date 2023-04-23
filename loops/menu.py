@@ -1,17 +1,16 @@
 # Setup Python ----------------------------------------------- #
 import pygame, sys
 import webbrowser
+import time
 
-from maintenance import clear_project, console_push, load_image, custom_mouse_highlight, custom_mouse
+from maintenance import clear_project, console_push, load_image, custom_mouse
 from classes.button import Button
 from loops.offline_accounts import offline_account_loop
-from classes.particle import Particle
-from classes.console import Console
 from loops.options import options_loop
 
 
 # Menu Loop -------------------------------------------------- #
-def menu_loop(game_engine):
+def menu_loop(game_engine, particle_handler, chat_console):
 
     # Get Context
     game_engine.update_discord_status("Waiting in the menu")
@@ -20,7 +19,7 @@ def menu_loop(game_engine):
     mainClock = game_engine.mainClock
 
     # Load Background
-    background = load_image("resources/images/backgrounds/background.png")
+    background = load_image("resources/images/backgrounds/background.png").convert()
 
     # Load Buttons
     offline_banner = Button(450, 270, "resources/images/buttons/offline_banner.png", "resources/images/buttons/offline_banner_hover.png", 5, 1)
@@ -35,18 +34,16 @@ def menu_loop(game_engine):
     # Particles event
     PARTICLE_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(PARTICLE_EVENT, 100)
-    particle_handler = Particle()
-
-    # Console / Chat
-    chat_console = Console(screen, game_engine.settings)
 
 
 # Loop Start ------------------------------------------------- #
     running = True
     while running:
+        
 
         # Call required updates
         game_engine.updates()
+        start = time.time()
 
         # Reset Frame
         screen.fill(0)
@@ -116,5 +113,12 @@ def menu_loop(game_engine):
 
 
 # Update ----------------------------------------------------- #
-        pygame.display.update()
-        mainClock.tick(game_engine.settings.get_fps())
+        pygame.display.flip()
+
+        # framerate control
+        end = time.time()
+        diff = end - start
+        framerate = game_engine.settings.get_fps()
+        delay = 1.0 / framerate - diff
+        if delay > 0:
+                time.sleep(delay)

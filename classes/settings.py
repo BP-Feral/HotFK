@@ -33,8 +33,13 @@ class Settings:
 
         # Add Section
         self.config["DEV"] = {
-            "version": "pre-0.0.9a",
+            "version": "pre-0.0.11a",
             "debug_mode": "True"
+        }
+
+        # Add Section
+        self.config["CHAT"] = {
+            "console-toggle": "False"
         }
 
         # Write to file
@@ -69,6 +74,12 @@ class Settings:
     def get_version(self):
         return self.config['DEV']['version']
 
+    def get_console_toggle(self):
+        if self.config['CHAT']['console-toggle'] == "True":
+            return True
+        else:
+            return False
+
     def get_debug_mode(self):
         return self.config['DEV']['debug_mode']
 
@@ -76,3 +87,9 @@ class Settings:
 # Setters ---------------------------------------------------- #
     def set_music_volume(self, value):
         self.config['SOUND']['music-volume'] = str(value)
+
+    def set_sound_volume(self, value):
+        self.config['SOUND']['sound-volume'] = str(value)
+
+    def set_console_toggle(self, value):
+        self.config['CHAT']['console-toggle'] = str(value)

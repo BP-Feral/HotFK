@@ -70,3 +70,12 @@ class Button:
         else:
             self.image = transform.flip(self.image, True, True)
             self.hover = transform.flip(self.hover, True, True)
+
+    def is_colliding(self, mouse_pos):
+        if self.rect.collidepoint(mouse_pos):
+            return True
+        else:
+            return False
+
+    def get_rect(self):
+        return (self.rect)
