@@ -33,7 +33,7 @@ class Settings:
 
         # Add Section
         self.config["DEV"] = {
-            "version": "pre-0.0.11a",
+            "version": "pre-0.0.12a",
             "debug_mode": "True"
         }
 

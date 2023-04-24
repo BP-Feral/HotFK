@@ -18,7 +18,7 @@ def disclaimer_loop(game_engine):
 # Loop Start  ------------------------------------------------ #
     running = True
     while running:
-        
+
         # Call required updates
         game_engine.updates()
 

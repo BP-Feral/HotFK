@@ -51,6 +51,8 @@ def options_loop(game_engine, particle_handler, chat_console):
     text_reset = ["This will reset all settings to default."]
     reset_button_rect = button_reset.get_rect()
     show_reset_info = False
+
+
 # Loop Start ------------------------------------------------- #
     running = True
     while running:

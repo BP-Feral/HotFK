@@ -3,7 +3,8 @@ import pygame, sys
 
 from maintenance import clear_project, load_image, console_push, custom_mouse
 from classes.button import Button
-from scenes.tutorial import tutorial_loop
+from scenes.debugger import tutorial_loop
+from scenes.tutorial2 import tutorial_loop2
 
 
 # Character Seleection Loop ---------------------------------- #
@@ -62,6 +63,7 @@ def offline_account_loop(game_engine, particle_handler, chat_console):
 
             if i == 1:
                 game_engine.update_discord_status("Free Zone: Serthorne Village")
+                tutorial_loop2(game_engine, particle_handler, chat_console)
             if i == 2:
                 game_engine.update_discord_status("Zone Two: Ailhelm Forest")
             if i == 3:
