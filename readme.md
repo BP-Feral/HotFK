@@ -120,6 +120,11 @@ We will continue to work on further updates and a way to deliver a beta version 
 - [x] Responsive GUI
 - [x] Animated Main Menu
 - [x] Discord SDK implemented
+- [X] Rework Font System
+- [x] Creative / Sandbox
+- [x] Commands to support Creative / Sandbox
+- [x] Save and Load data
+- [x] Tutorial level (Singleplayer)
 
 ### Next
 - [ ] Notifications System
@@ -130,14 +135,9 @@ We will continue to work on further updates and a way to deliver a beta version 
 - [ ] Co-op playing
 
 ### Future
-- [ ] Rework Font System
-- [ ] Creative / Sandbox
-- [ ] Commands to support Creative / Sandbox
-- [ ] Save and Load data
 - [ ] Cloud saving
 - [ ] Player, Enemy, AI
 - [ ] Player inventory
-- [ ] Tutorial level (Singleplayer)
 - [ ] Account management
 - [ ] Co-Op (max 4 extra friends)
 - [ ] Multiplayer
