@@ -3,8 +3,9 @@ import pygame, sys
 
 from maintenance import clear_project, load_image, console_push, custom_mouse
 from classes.button import Button
-from scenes.debugger import tutorial_loop
-from scenes.tutorial2 import tutorial_loop2
+from scenes.ShadowTower import tutorial_loop
+from scenes.Blackridge import tutorial_loop2
+from scenes.AilhelmForest import tutorial_loop3
 
 
 # Character Seleection Loop ---------------------------------- #
@@ -66,6 +67,7 @@ def offline_account_loop(game_engine, particle_handler, chat_console):
                 tutorial_loop2(game_engine, particle_handler, chat_console)
             if i == 2:
                 game_engine.update_discord_status("Zone Two: Ailhelm Forest")
+                tutorial_loop3(game_engine, particle_handler, chat_console)
             if i == 3:
                 game_engine.update_discord_status("Blackridge: Shadow Tower")
 

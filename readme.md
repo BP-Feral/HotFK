@@ -2,16 +2,24 @@
 
 ## Changelog
 
+### v. pre 0.0.13a <span style="color:grey">27/Apr/2023<span>
+
+    The experiments continue...
+
+ - 2 New Scenes to debug collisions and player movement.
+ - New Entity class to derive players and other entities.
+ - Small changes for menu GUIs
+
+<details closed>
+<summary><span style="color:grey">Older Releases</span></summary>
+
 ### v. pre 0.0.12a <span style="color:grey">24/Apr/2023<span>
-    
+
     You've got to experiment to figure out what works. (And fail a lot...)
 
  - Tilemap experiment.
  - Collisions experiment.
  - Player and movement experiment.
-
-<details closed>
-<summary><span style="color:grey">Older Releases</span></summary>
 
 ### v. pre 0.0.11a <span style="color:grey">23/Apr/2023<span>
  - New fonts for the game.

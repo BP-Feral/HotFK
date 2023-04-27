@@ -53,7 +53,7 @@ class gameEngine:
             discord_application_id = 1097332146923913288
             self.app = dsdk.Discord(discord_application_id, dsdk.CreateFlags.default)
             self.activity_manager = self.app.get_activity_manager()
-            
+
             # setup activity
             self.activity = dsdk.Activity()
             self.activity.state = "Just started"
@@ -65,7 +65,7 @@ class gameEngine:
             self.activity.secrets.join = str(uuid.uuid4())
             self.activity.timestamps.start = int(t.time())
 
-            # activity icon        
+            # activity icon
             self.activity.assets.large_image = "https://i.imgur.com/thAl2Ll.png"
 
             # update the activity

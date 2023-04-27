@@ -68,7 +68,7 @@ def tutorial_loop(game_engine, particle_handler, chat_console):
                     if chat_console.active == False:
                         print("FALSE")
                         game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
-                        options_loop(game_engine, particle_handler, chat_console)
+                        options_loop(game_engine, particle_handler, chat_console, None)
 
                 if event.key == pygame.K_a:
                     moving[0] = 0
@@ -79,28 +79,8 @@ def tutorial_loop(game_engine, particle_handler, chat_console):
                 if event.key == pygame.K_s:
                     moving[3] = 0
 
-        #if moving[0]:
-        #    for tile in tiles:
-        #        tile.x += 1 * speed
-#
-        #if moving[1]:
-        #    for tile in tiles:
-        #        tile.x -= 1 * speed            
-#
-        #if moving[2]:
-        #    for tile in tiles:
-        #        tile.y += 1 * speed
-#
-        #if moving[3]:
-        #    for tile in tiles:
-        #        tile.y -= 1 * speed
-
 
 # Render ----------------------------------------------------- #
-       #for tile in tiles:
-       #    if tile.tile_id == 'checkers':
-       #        screen.blit(tile.image, (tile.x, tile.y))
-
         # Console and mouse
         chat_console.draw()
         screen.blit(cursor_img, cursor_rect)

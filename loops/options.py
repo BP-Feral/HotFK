@@ -6,7 +6,7 @@ import pygame
 
 
 # Options Loop ----------------------------------------------- #
-def options_loop(game_engine, particle_handler, chat_console):
+def options_loop(game_engine, particle_handler, chat_console, state_running):
 
     # Get Context
     game_engine.update_discord_status("Checking the settings")
@@ -34,6 +34,7 @@ def options_loop(game_engine, particle_handler, chat_console):
     button_save = Button(1178, 800, "resources/images/buttons/save.png", "resources/images/buttons/save_hover.png", 2, 1)
     button_reset = Button(978, 800, "resources/images/buttons/reset.png", "resources/images/buttons/reset_hover.png", 2, 1)
 
+    button_exit = Button(778, 800, "resources/images/buttons/exit.png", "resources/images/buttons/exit_hover.png", 2 ,1)
     # Particles Event
     PARTICLE_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(PARTICLE_EVENT, 100)
@@ -129,12 +130,14 @@ def options_loop(game_engine, particle_handler, chat_console):
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
             print("SAVE")
 
-
+        if button_exit.draw(screen):
+            state_running = False
+            break
 # Events ----------------------------------------------------- #
         for event in pygame.event.get():
             chat_console.update(event)
 
-            if event.type == pygame.KEYUP:
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
                     running = False

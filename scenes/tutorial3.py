@@ -1,6 +1,8 @@
 # Setup Python ----------------------------------------------- #
 from maintenance import custom_mouse_highlight, update_fps, load_image
 from loops.options import options_loop
+from classes.entity import Entity
+
 
 import pygame
 
@@ -36,9 +38,35 @@ def move(rect, movement, tiles):
     return rect, collision_types
 
 
-def tutorial_loop2(game_engine, particle_handler, chat_console):
+def update_mouse_pos(mx, my, base_font, screen):
+    px = base_font.render(f"{mx}:{my}", True, (255, 255, 255))
+    screen.blit(px, (mx, my))
+
+
+def draw_axis(screen, TILE_SIZE):
+    for i in range(30):
+            pygame.draw.line(screen, (255, 255, 255), (i * TILE_SIZE, 0), (i * TILE_SIZE, 1080))
+            pygame.draw.line(screen, (255, 255, 255), (0, i * TILE_SIZE), (1920, i * TILE_SIZE))
+
+
+def add_pos(base_font, mx, my, blits):
+    px = base_font.render(f"{mx // 64}, {my // 64}", True, (255, 0, 0))
     
+    blits.append((px, mx, my))
+    return blits
+
+
+def display_pos(screen, blits):
+    for blit in blits:
+        screen.blit(blit[0], (blit[1], blit[2]))
+
+
+def tutorial_loop3(game_engine, particle_handler, chat_console):
+
     # Get Context
+    player1_path = './resources/images/entities/player/player.png'
+    player1 = Entity( 200, 50, 10, player1_path, 'player')
+
     game_engine.update_discord_status("Editing new map")
     cursor_img, cursor_rect = custom_mouse_highlight()
     screen = pygame.display.get_surface()
@@ -46,8 +74,8 @@ def tutorial_loop2(game_engine, particle_handler, chat_console):
     base_font = pygame.font.Font("./resources/fonts/VcrOsdMono.ttf", 20)
     
     WINDOW_SIZE = (1920, 1080)
-    TILE_SIZE = 16
-    display = pygame.Surface((430, 270))
+    TILE_SIZE = 64
+    
 
     game_map = [['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
                 ['1', '2', '1', '1', '1', '3', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
@@ -82,33 +110,38 @@ def tutorial_loop2(game_engine, particle_handler, chat_console):
                     ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
                     ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']]
     ###
-    player_image = pygame.image.load('./resources/images/entities/player/player.png')
     player2_image = pygame.image.load('./resources/images/entities/player/player2.png')
+    player2_image = pygame.transform.scale(player2_image, (player2_image.get_width()*4, player2_image.get_height()*4))
 
     grass_image = pygame.image.load('./resources/images/tiles/grass.png')
+    grass_image = pygame.transform.scale(grass_image, (64, 64))
+
     dirt_image = pygame.image.load('./resources/images/tiles/dirt.png')
+    dirt_image = pygame.transform.scale(dirt_image, (64, 64))
+
     dirt1_image = pygame.image.load('./resources/images/tiles/dirt1.png')
+    dirt1_image = pygame.transform.scale(dirt1_image, (64, 64))
+
     dirt2_image = pygame.image.load('./resources/images/tiles/dirt2.png')
+    dirt2_image = pygame.transform.scale(dirt2_image, (64, 64))
+
     crate_image = pygame.image.load('./resources/images/tiles/crate.png').convert_alpha()
-    player_image_left = pygame.transform.flip(player_image, True, False)
-    player_image_right = player_image
-    
-    player_rect = pygame.Rect(200, 50, player_image.get_width(), player_image.get_height())
+    crate_image = pygame.transform.scale(crate_image, (crate_image.get_width()*4, crate_image.get_height()*4))
 
-    moving_right = False
-    moving_left = False
-    moving_up = False
-    moving_down = False
+    select_image = pygame.image.load('./resources/images/tiles/select.png').convert_alpha()
+    select_image = pygame.transform.scale(select_image, (64, 64))
 
-    speed = 6
+    show_axis = False
+
+    # Debug rects
+    blits = []
 
     # discord activity cooldown
     cooldown = 0
 # Loop Start ------------------------------------------------- #
     running = True
-    tutorial_loop2 = running
     while running:
-        display.fill(0)
+        screen.fill(0)
 
         # Call required updates
         game_engine.updates()
@@ -124,11 +157,13 @@ def tutorial_loop2(game_engine, particle_handler, chat_console):
             x = 0
             for tile in row:
                 if tile == '1':
-                    display.blit(dirt_image, (x * TILE_SIZE, y * TILE_SIZE))
+                    screen.blit(dirt_image, (x * TILE_SIZE, y * TILE_SIZE))
                 if tile == '2':
-                    display.blit(dirt2_image, (x * TILE_SIZE, y * TILE_SIZE))
+                    screen.blit(dirt2_image, (x * TILE_SIZE, y * TILE_SIZE))
                 if tile == '3':
-                    display.blit(dirt1_image, (x * TILE_SIZE, y * TILE_SIZE))
+                    screen.blit(dirt1_image, (x * TILE_SIZE, y * TILE_SIZE))
+                if tile == '4':
+                    screen.blit(select_image, (x * TILE_SIZE, y * TILE_SIZE))
                 x += 1
             y += 1
         
@@ -137,71 +172,61 @@ def tutorial_loop2(game_engine, particle_handler, chat_console):
             x = 0
             for tile in row:
                 if tile == '1':
-                    display.blit(crate_image, (x * TILE_SIZE, y * TILE_SIZE))
+                    screen.blit(crate_image, (x * TILE_SIZE, y * TILE_SIZE))
                     collision_rects.append(pygame.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
                 x += 1
             y += 1
 
+        player_rect, collisions = move(player1.get_player_rect(), player1.get_movement(), collision_rects)
 
-        player_movement = [0, 0]
-        if moving_right == True:
-            player_movement[0] += speed
-            player_image = player_image_right
-        if moving_left == True:
-            player_movement[0] -= speed
-            player_image = player_image_left
-        if moving_down == True:
-            player_movement[1] += speed
-        if moving_up == True:
-            player_movement[1] -= speed
-
-        player_rect, collisions = move(player_rect, player_movement, collision_rects)
-
+        del collisions
         # Mouse
         mx, my = pygame.mouse.get_pos()
         cursor_rect.center = (mx, my)
 
-        display.blit(player_image, (player_rect.x, player_rect.y))
-        display.blit(player2_image, (100, 100))
+        player1.draw(screen)
+        screen.blit(player2_image, (100, 100))
 
+
+        
 # Events ----------------------------------------------------- #
         for event in pygame.event.get():
             chat_console.update(event)
 
+            # Mouse actions
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                show_axis = True
+                blits = add_pos(base_font, mx, my, blits)
+            if event.type == pygame.MOUSEBUTTONUP:
+                show_axis = False
+                target_x = mx // TILE_SIZE
+                target_y = my // TILE_SIZE
+                screen.blit(select_image, (target_x, target_y))
+                game_map[target_y][target_x]= '4'
+            
+            # Key presses
             if event.type == pygame.KEYDOWN:
-                if chat_console.active == False:
-                    if event.key == pygame.K_a:
-                        moving_left = True
-                    if event.key == pygame.K_d:
-                        moving_right = True
-                    if event.key == pygame.K_w:
-                        moving_up = True
-                    if event.key == pygame.K_s:
-                        moving_down = True
+                player1.move(event, chat_console)
 
                 if event.key == pygame.K_ESCAPE:
                     if chat_console.active == True:
                         break
                     if chat_console.active == False:
                         game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
-                        options_loop(game_engine, particle_handler, chat_console, state_running=tutorial_loop2)
-
-            if event.type == pygame.KEYUP:
-                if chat_console.active == False:
-                    if event.key == pygame.K_a:
-                        moving_left = False
-                    if event.key == pygame.K_d:
-                        moving_right = False
-                    if event.key == pygame.K_w:
-                        moving_up = False
-                    if event.key == pygame.K_s:
-                        moving_down = False
+                        options_loop(game_engine, particle_handler, chat_console, state_running=running)
+        
+            
 # Render ----------------------------------------------------- #
 
-        surf = pygame.transform.scale(display, WINDOW_SIZE)
+        surf = pygame.transform.scale(screen, WINDOW_SIZE)
         screen.blit(surf, (0, 0))
         # Console and mouse
         chat_console.draw()
+        update_mouse_pos(mx, my, base_font, screen)
+        if show_axis:
+            draw_axis(screen, TILE_SIZE)
+
+        display_pos(screen, blits)
         screen.blit(cursor_img, cursor_rect)
         screen.blit(update_fps(mainClock, base_font), (10,0))
 

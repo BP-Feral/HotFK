@@ -2,8 +2,8 @@
 import pygame
 
 from maintenance import console_push
-from scenes.debugger import tutorial_loop
-from scenes.tutorial2 import tutorial_loop2
+from scenes.ShadowTower import tutorial_loop
+from scenes.Blackridge import tutorial_loop2
 
 # CLass Block ------------------------------------------------ #
 class Console:
@@ -72,6 +72,8 @@ class Console:
 
                         # Slash Commands
                         try:
+                            if self.user_text[:6] == "/break":
+                                return
                             if self.user_text[:6] == "/music":
                                 args = self.user_text.split(' ')
                                 if args[1] == "volume":

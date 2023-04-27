@@ -9,12 +9,12 @@ from pygame import image, transform, Color
 
 # Globals
 settings = {
-    "fps": 60, 
-    "default-width": 1920, 
-    "default-height": 1080, 
-    "fullscreen": True, 
-    "offline": True, 
-    "debug-mode": True, 
+    "fps": 60,
+    "default-width": 1920,
+    "default-height": 1080,
+    "fullscreen": True,
+    "offline": True,
+    "debug-mode": True,
     'version': "pre-0.0.8a",
     'sound-volume': 1,
     'music-volume': 1

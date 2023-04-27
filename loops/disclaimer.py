@@ -24,8 +24,8 @@ def disclaimer_loop(game_engine):
 
         # Reset Frame
         screen.fill(0)
-        
-        # Time 
+
+        # Time
         dt = time.time() - previous_time
         previous_time = time.time()
 

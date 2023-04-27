@@ -35,11 +35,11 @@ def menu_loop(game_engine, particle_handler, chat_console):
     PARTICLE_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(PARTICLE_EVENT, 100)
 
-
 # Loop Start ------------------------------------------------- #
     running = True
+    menu_loop = running
     while running:
-        
+
 
         # Call required updates
         game_engine.updates()
@@ -81,7 +81,7 @@ def menu_loop(game_engine, particle_handler, chat_console):
 
         if options.draw(screen):
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
-            options_loop(game_engine, particle_handler, chat_console)
+            options_loop(game_engine, particle_handler, chat_console, state_running=menu_loop)
             game_engine.update_discord_status("Waiting in the menu")
 
         if leave.draw(screen):
