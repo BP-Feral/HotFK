@@ -142,6 +142,7 @@ We will continue to work on further updates and a way to deliver a beta version 
 - [x] Finish Options settings
 <details closed>
 <summary><span style="color:grey">View All</span></summary>
+    
 - [x] Sound System
 - [x] Core System
 - [x] Menu Views
@@ -155,6 +156,7 @@ We will continue to work on further updates and a way to deliver a beta version 
 - [x] Commands to support Creative / Sandbox
 - [x] Save and Load data
 - [x] Tutorial level (Singleplayer)
+    
 </details>
 
 ### Next
