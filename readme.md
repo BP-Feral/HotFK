@@ -2,6 +2,21 @@
 
 ## Changelog
 
+### v. <span style="color:pink">experimental<span> <span style="color:white"> 0.0.13b <span> <span style="color:pink">28/Apr/2023<span>
+
+    Different route for major experiments
+
+ The following changes can be found under the `rebased` folder:
+
+ - Updated Discord Activity to extract User avatar, username and discriminant
+ - Added detection of requests for Invite or Join trough Discord Activity.
+ - Improved GUI with dynamic positioning, scaling and scene fading effects.
+ - New widgets for displaying text on screen including multiple lines.
+ - New class for discord RPC activity and the required methods.
+ - <span style="color:red"> game maps are currently disabled for debugging and implementing new features.<span>
+
+---
+
 ### v. pre 0.0.13a <span style="color:grey">27/Apr/2023<span>
 
     The experiments continue...
@@ -9,6 +24,8 @@
  - 2 New Scenes to debug collisions and player movement.
  - New Entity class to derive players and other entities.
  - Small changes for menu GUIs
+
+---
 
 <details closed>
 <summary><span style="color:grey">Older Releases</span></summary>
