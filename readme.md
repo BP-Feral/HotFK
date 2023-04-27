@@ -103,7 +103,7 @@ Currently there is no installation file, you have to compile a copy of the game 
 
 after that you have to run the following command in the project folder:
 
-`pyinstaller main.py` this will create an executable for the game to run. 
+`pyinstaller main.py` this will create an executable for the game to run.
 
 if you need all the intended fancy stuff such as the name, no console and icon run the following command instead:
 
@@ -137,8 +137,13 @@ We will continue to work on further updates and a way to deliver a beta version 
 
 ## TODO
 ### Completed
-- [x] Core System
+- [x] Discord Party (join / invite)
+- [x] Fix in-game Disclaimer
+- [x] Finish Options settings
+<details closed>
+<summary><span style="color:grey">View All</span></summary>
 - [x] Sound System
+- [x] Core System
 - [x] Menu Views
 - [x] Chat System
 - [x] Uninterupted music between scenes
@@ -150,13 +155,11 @@ We will continue to work on further updates and a way to deliver a beta version 
 - [x] Commands to support Creative / Sandbox
 - [x] Save and Load data
 - [x] Tutorial level (Singleplayer)
+</details>
 
 ### Next
 - [ ] Notifications System
-- [ ] Fix in-game Disclaimer
 - [ ] Fix button collisions
-- [ ] Finish Options settings
-- [ ] Discord Party (join / invite)
 - [ ] Co-op playing
 
 ### Future
