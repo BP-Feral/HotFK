@@ -121,7 +121,7 @@ if you need all the intended fancy stuff such as the name, no console and icon r
 
 ## Contact
 ### Discord or email
-Send meus a direct message at `Rioter Neeko#0646` or join me using [this server invite](https://discord.gg/xcEYBpn2k2).
+Send me a direct message at `Rioter Neeko#0646` or join me using [this server invite](https://discord.gg/xcEYBpn2k2).
 
 You can also send me an email at mihai.pricbo@yahoo.com if DIscord is not an option.
 
