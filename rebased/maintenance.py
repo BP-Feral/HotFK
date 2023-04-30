@@ -36,13 +36,3 @@ def custom_mouse():
 def console_push(message):
     # TODO display console messages in game
     print(message)
-
-def allowed_resolutions(width, heigth):
-    widths = [1152, 1536, 1920]
-    heigths = [648, 684, 1080]
-
-    if width in widths or width >= 1920:
-        if heigth in heigths or heigth >= 1080:
-            return True
-    else:
-        return False

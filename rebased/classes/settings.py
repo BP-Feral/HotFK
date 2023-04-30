@@ -9,10 +9,10 @@ class Settings():
     def reset(self):
         self.config["VIDEO"] = {
             'fps': '60',
-            "default-width": "1152",
-            "default-height": "648",
+            "default-width": "1920",
+            "default-height": "1080",
             "fullscreen": "True",
-            "use-native": "True"
+            "use-native": "False"
         }
         self.config["MULTIPLAYER"] = {
             'offline': "True"

@@ -2,8 +2,8 @@
 import pygame
 
 from maintenance import console_push
-from scenes.ShadowTower import tutorial_loop
-from scenes.Blackridge import tutorial_loop2
+from scenes.tutorial3 import tutorial_loop3
+from scenes.debugger import tutorial_loop
 
 # CLass Block ------------------------------------------------ #
 class Console:
@@ -93,7 +93,7 @@ class Console:
                                     tutorial_loop(self.game_engine, self.particle_handler, self)
                                 if args[1] == "new" and args [2] == "room2":
                                     self.user_text = ""
-                                    tutorial_loop2(self.game_engine, self.particle_handler, self)
+                                    tutorial_loop3(self.game_engine, self.particle_handler, self)
 
                             # Clear the box
                             self.user_text = ""

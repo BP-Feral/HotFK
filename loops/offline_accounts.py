@@ -3,9 +3,9 @@ import pygame, sys
 
 from maintenance import clear_project, load_image, console_push, custom_mouse
 from classes.button import Button
-from scenes.ShadowTower import tutorial_loop
-from scenes.Blackridge import tutorial_loop2
-from scenes.AilhelmForest import tutorial_loop3
+from scenes.tutorial2 import tutorial_loop2
+from scenes.tutorial3 import tutorial_loop3
+from scenes.debugger import tutorial_loop
 
 
 # Character Seleection Loop ---------------------------------- #

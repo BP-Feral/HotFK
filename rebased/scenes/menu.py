@@ -18,8 +18,13 @@ def MenuLoop(game_engine):
         portrait = pygame.transform.scale(portrait, (60, 60))
 
     # Load Buttons
-    offline_banner = Button(game_engine.settings.get_width() // 4, game_engine.settings.get_height() // 5 * 2, "resources/images/buttons/offline_banner.png", "resources/images/buttons/offline_banner_hover.png", 5, 0.8)
-    online_banner = Button(game_engine.settings.get_width() // 4 * 3, game_engine.settings.get_height() // 5 * 2, "resources/images/buttons/online_banner.png", "resources/images/buttons/online_banner_hover.png", 5, 0.8)
+    if game_engine.settings.get_width() == 1920 and game_engine.settings.get_height() == 1080:
+        offline_banner = Button(game_engine.settings.get_width() // 4, game_engine.settings.get_height() // 5 * 2, "resources/images/buttons/offline_banner.png", "resources/images/buttons/offline_banner_hover.png", 5, 1)
+        online_banner = Button(game_engine.settings.get_width() // 4 * 3, game_engine.settings.get_height() // 5 * 2, "resources/images/buttons/online_banner.png", "resources/images/buttons/online_banner_hover.png", 5, 1)
+    else:
+        offline_banner = Button(game_engine.settings.get_width() // 4, game_engine.settings.get_height() // 5 * 2, "resources/images/buttons/offline_banner.png", "resources/images/buttons/offline_banner_hover.png", 5, 0.8)
+        online_banner = Button(game_engine.settings.get_width() // 4 * 3, game_engine.settings.get_height() // 5 * 2, "resources/images/buttons/online_banner.png", "resources/images/buttons/online_banner_hover.png", 5, 0.8)
+
     discord = Button(0 + 80, game_engine.settings.get_height() - 100, "resources/images/buttons/discord.png", "resources/images/buttons/discord_hover.png", 0, 1)
     github = Button(0 + 200, game_engine.settings.get_height() - 100, "resources/images/buttons/github.png","resources/images/buttons/github_hover.png", 0, 1)
     options = Button(game_engine.settings.get_width() - 200, game_engine.settings.get_height() - 100, "resources/images/buttons/options.png", "resources/images/buttons/options_hover.png", 0, 1)
@@ -46,6 +51,7 @@ def MenuLoop(game_engine):
 
         # Draw buttons
         if offline_banner.draw(game_engine.screen):
+            
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
 
         if online_banner.draw(game_engine.screen):

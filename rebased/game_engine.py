@@ -13,9 +13,9 @@ from classes.particle import ParticleManager
 from classes.console import ChatConsole
 from classes.text_widget import TextWidget
 from classes.discord import Discord
+from classes.steam import Steam
 
-from maintenance import load_image, allowed_resolutions
-
+from maintenance import load_image
 
 # GameEngine Class ============================================= #
 class GameEngine():
@@ -29,74 +29,63 @@ class GameEngine():
         self.mainClock = pygame.time.Clock()
         self.settings = Settings()
         self.mixer = Mixer(self.settings)
+        self.discord = Discord(self.mixer)
+        self.particleManager = ParticleManager(self.settings)
+        self.textWidget = TextWidget()
+
+        # Steam config
+        self.steam = Steam()
+        if self.steam.is_running():
+            self.steam.get_current_user()
+
+        # Load Sound Config
+        self.mixer.update_music_volume()
+        self.mixer.update_sound_volume()
+        self.mixer.music_play('resources/sounds/Dark_Fog.mp3', -1, 1000)
+
+        self.game_state = 'Just Started'
+        self.fade_state = 0
 
         self.fps = self.settings.get_fps()
         pygame.mouse.set_visible(False)
-        self.fade_state = 0
 
+        self.res_scale = 1
+        info = pygame.display.Info()
+        print(f"identified {info.current_w}x{info.current_h}")
+
+        if info.current_h == 1080:
+            self.window_width = 1920
+            self.window_height = 1080
+            self.settings.set_width(1920)
+            self.settings.set_height(1080)
+            self.settings.write_to_file()
+        else:
+            self.adjust_video_settings(info)
+
+        print(f"fullscreened at {self.window_width}x{self.window_height}")
+        self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.FULLSCREEN, 0)
+        self.chatConsole = ChatConsole(self.settings, self.mixer, self.screen)
         game_icon = pygame.image.load('resources/images/icons/icon.ico')
         pygame.display.set_caption('Heroes of the Fallen Kingdom')
         pygame.display.set_icon(game_icon)
-
-        # Load Settings
-        self.load_settings()
-
-        # self.activity = DiscordActivity()
-        self.particleManager = ParticleManager(self.settings)
-        self.chatConsole = ChatConsole(self.settings, self.mixer, self.screen)
-        self.textWidget = TextWidget()
-        # Start Background Music
-        self.mixer.music_play('resources/sounds/Dark_Fog.mp3', -1, 1000)
-        self.game_state = 'Just Started'
-
-        self.discord = Discord(self.mixer)
         # Load Background
         self.background = load_image("resources/images/backgrounds/background.png").convert()
         self.background = pygame.transform.scale(self.background, (self.window_width + 100, self.window_height + 100))
 
-    def load_settings(self):
-
-        # Load Window Config
-        self.window_width = self.settings.get_width()
-        self.window_height = self.settings.get_height()
-        # Load Sound Config
-        self.mixer.update_music_volume()
-        self.mixer.update_sound_volume()
-
-        # Get Monitor Info
-        info = pygame.display.Info()
-
-        # Load Monitor Info
-        if self.settings.get_native() == True:
-            self.window_width = info.current_w
-            self.window_height = info.current_h
-            self.settings.set_width(self.window_width)
-            self.settings.set_height(self.window_height)
-
-            # Update Settings with new Resoulution
-            self.settings.write_to_file()
-
-        # Adjust Window Size
-        if allowed_resolutions(self.window_width, self.window_height) == False:
-            self.settings.set_width(1152)
-            self.settings.set_height(648)
-            self.window_width = self.settings.get_width()
-            self.window_height = self.settings.get_height()
-
-            # Update Settings with new Resoulution
-            self.save_settings()
-
-        # Set / Modify - Display
-        if self.settings.get_fullscreen():
-            self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.FULLSCREEN, 0)
-        else:
-            self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.NOFRAME, depth=0)
+    def adjust_video_settings(self, info):
+        self.res_scale = info.current_h / 1080
+        print(f"scaling at {self.res_scale} factor")
+        self.window_height = int(1080 * self.res_scale)
+        self.window_width = int(1920 * self.res_scale)
+        print(f"New resolution is {self.window_width}x{self.window_height}")
+        self.settings.set_width(self.window_width)
+        self.settings.set_height(self.window_height)
+        self.settings.write_to_file()
 
     def save_settings(self):
         self.settings.write_to_file()
 
     def update_display(self):
-
         self.fade_in(self.screen)
         pygame.display.update()
         self.mainClock.tick(self.fps)

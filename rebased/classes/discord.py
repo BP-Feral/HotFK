@@ -14,6 +14,7 @@ class Discord():
             self.discord_active = False
 
         self.mixer = mixer
+        self.portrait = None
 
         if self.discord_active:
             discord_application_id = 1097332146923913288

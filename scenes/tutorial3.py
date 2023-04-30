@@ -72,10 +72,10 @@ def tutorial_loop3(game_engine, particle_handler, chat_console):
     screen = pygame.display.get_surface()
     mainClock = game_engine.mainClock
     base_font = pygame.font.Font("./resources/fonts/VcrOsdMono.ttf", 20)
-    
+
     WINDOW_SIZE = (1920, 1080)
     TILE_SIZE = 64
-    
+
 
     game_map = [['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
                 ['1', '2', '1', '1', '1', '3', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
@@ -166,7 +166,7 @@ def tutorial_loop3(game_engine, particle_handler, chat_console):
                     screen.blit(select_image, (x * TILE_SIZE, y * TILE_SIZE))
                 x += 1
             y += 1
-        
+
         y = 0
         for row in collision_map:
             x = 0
@@ -188,7 +188,7 @@ def tutorial_loop3(game_engine, particle_handler, chat_console):
         screen.blit(player2_image, (100, 100))
 
 
-        
+
 # Events ----------------------------------------------------- #
         for event in pygame.event.get():
             chat_console.update(event)
@@ -203,7 +203,7 @@ def tutorial_loop3(game_engine, particle_handler, chat_console):
                 target_y = my // TILE_SIZE
                 screen.blit(select_image, (target_x, target_y))
                 game_map[target_y][target_x]= '4'
-            
+
             # Key presses
             if event.type == pygame.KEYDOWN:
                 player1.move(event, chat_console)
@@ -214,8 +214,8 @@ def tutorial_loop3(game_engine, particle_handler, chat_console):
                     if chat_console.active == False:
                         game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
                         options_loop(game_engine, particle_handler, chat_console, state_running=running)
-        
-            
+
+
 # Render ----------------------------------------------------- #
 
         surf = pygame.transform.scale(screen, WINDOW_SIZE)
