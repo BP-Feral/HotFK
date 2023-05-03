@@ -9,8 +9,9 @@ if __name__ == '__main__':
     game_engine = GameEngine()
     next_scene = True
 
+    print(game_engine.settings.get_first_run())
     if game_engine.settings.get_first_run() == True:
-        game_engine.settings.set_first_run(True)
+        game_engine.settings.set_first_run(False)
 
         if FirstRunLoop(game_engine):
             next_scene = True

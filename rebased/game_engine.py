@@ -6,6 +6,7 @@ import pygame
 from scenes.options import OptionsLoop
 from scenes.splash_art import SplashLoop
 from scenes.menu import MenuLoop
+from scenes.editor import EditorLoop
 
 from classes.mixer import Mixer
 from classes.settings import Settings
@@ -64,7 +65,7 @@ class GameEngine():
 
         print(f"fullscreened at {self.window_width}x{self.window_height}")
         self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.FULLSCREEN, 0)
-        self.chatConsole = ChatConsole(self.settings, self.mixer, self.screen)
+        self.chatConsole = ChatConsole(self.settings, self.mixer, self.screen, self)
         game_icon = pygame.image.load('resources/images/icons/icon.ico')
         pygame.display.set_caption('Heroes of the Fallen Kingdom')
         pygame.display.set_icon(game_icon)
@@ -129,3 +130,6 @@ class GameEngine():
 # Menu View ==================================================== #
     def menu_loop(self):
         MenuLoop(self)
+# Map Editor View ============================================== #
+    def editor_loop(self):
+        EditorLoop(self)

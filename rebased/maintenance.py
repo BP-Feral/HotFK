@@ -1,10 +1,8 @@
 import pygame, subprocess
-import discordsdk as dsdk
 
-def notification(x, y, font_size, message, img):
+def notification(font_size, message, img):
     font = pygame.font.Font('resources/fonts/Thintel.ttf', font_size)
     notif_msg = font.render(message, True, (255, 255, 255))
-
     notif_widget = pygame.Surface((notif_msg.get_width(), notif_msg.get_height()))
     notif_widget.fill((255, 0 ,0))
     notif_box = pygame.Surface((notif_widget.get_width() + 100, notif_widget.get_height() + 20))

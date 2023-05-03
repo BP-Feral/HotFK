@@ -4,7 +4,8 @@ from maintenance import console_push
 
 # ChatConsole Class ============================================ #
 class ChatConsole():
-    def __init__(self, settings, mixer, screen):
+    def __init__(self, settings, mixer, screen, game_engine):
+        self.game_engine = game_engine
         self.font = pygame.font.Font('resources/fonts/Thintel.ttf', 28)
         self.text = "[all]: type here - or use /help"
         self.input_rect = pygame.Rect(1, settings.get_height() - 35, 140, 32)
@@ -59,35 +60,40 @@ class ChatConsole():
                             console_push(f"[Console][USER][CHAT]: {self.user_text}")
 
                             # Slash Commands
-                            try:
-                                if self.user_text[:6] == "/break":
-                                    return
-                                if self.user_text[:6] == "/music":
-                                    args = self.user_text.split(' ')
-                                    if args[1] == "volume":
-                                        self.settings.set_music_volume(round( float(args[2])/10, 1))
-                                        self.mixer.update_music_volume()
+                            #try:
+                            if self.user_text[:6] == "/break":
+                                return
 
-                                elif self.user_text[:6] == "/sound":
-                                    args = self.user_text.split(' ')
-                                    if args[1] == "volume":
-                                        self.settings.set_sound_volume(round( float(args[2])/10, 1))
-                                        self.mixer.update_sound_volume()
+                            if self.user_text[:6] == "/music":
+                                args = self.user_text.split(' ')
+                                if args[1] == "volume":
+                                    self.settings.set_music_volume(round( float(args[2])/10, 1))
+                                    self.mixer.update_music_volume()
 
-                                elif self.user_text[:6] == "/debug":
-                                    args = self.user_text.split(' ')
-                                    if args[1] == "new" and args [2] == "room":
-                                        self.user_text = ""
-                                        # game_engine.tutorial_loop()
-                                    if args[1] == "new" and args [2] == "room2":
-                                        self.user_text = ""
-                                        # game_engine.tutorial_loop2()
+                            elif self.user_text[:6] == "/sound":
+                                args = self.user_text.split(' ')
+                                if args[1] == "volume":
+                                    self.settings.set_sound_volume(round( float(args[2])/10, 1))
+                                    self.mixer.update_sound_volume()
 
-                                # Clear the box
-                                self.user_text = ""
-                            except:
-                                console_push("Chat error")
-                                self.user_text = ""
+                            elif self.user_text[:6] == "/debug":
+                                args = self.user_text.split(' ')
+                                if args[1] == "new" and args [2] == "room":
+                                    self.user_text = ""
+                                    # game_engine.tutorial_loop()
+                                if args[1] == "new" and args [2] == "room2":
+                                    self.user_text = ""
+                                    # game_engine.tutorial_loop2()
+                                if args[1] == "editor":
+                                    self.user_text = ""
+                                    self.active = False
+                                    self.game_engine.editor_loop()
+
+                            # Clear the box
+                            self.user_text = ""
+                           #except:
+                           #    console_push("Chat error")
+                           #    self.user_text = ""
                         return
 
                     # Handle Backspace key

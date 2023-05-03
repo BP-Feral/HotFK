@@ -1,3 +1,4 @@
+import time
 import pygame, sys, webbrowser
 from classes.button import Button
 from maintenance import custom_mouse
@@ -12,10 +13,13 @@ def MenuLoop(game_engine):
     if game_engine.discord.is_active():
         portrait_x = game_engine.settings.get_width() // 2 - 100
         portrait_y = game_engine.settings.get_height() - 100
-        username, discriminant = game_engine.discord.get_username()
-        userdis = [f"{username} # {discriminant}"]
-        portrait = game_engine.discord.get_portrait()
-        portrait = pygame.transform.scale(portrait, (60, 60))
+        try:
+            username, discriminant = game_engine.discord.get_username()
+            portrait = game_engine.discord.get_portrait()
+            portrait = pygame.transform.scale(portrait, (60, 60))
+            userdis = [f"{username} # {discriminant}"]
+        except:
+            userdis = ["Could not retrieve username"]
 
     # Load Buttons
     if game_engine.settings.get_width() == 1920 and game_engine.settings.get_height() == 1080:
@@ -51,7 +55,7 @@ def MenuLoop(game_engine):
 
         # Draw buttons
         if offline_banner.draw(game_engine.screen):
-            
+
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
 
         if online_banner.draw(game_engine.screen):
@@ -101,7 +105,8 @@ def MenuLoop(game_engine):
         if game_engine.discord.is_active():
             if profile_card.draw(game_engine.screen):
                 game_engine.mixer.sound_play('resources/sounds/Join.mp3')
-            game_engine.screen.blit(portrait, (profile_card.get_rect().x + 22, profile_card.get_rect().y + 22))
+            if portrait != None:
+                game_engine.screen.blit(portrait, (profile_card.get_rect().x + 22, profile_card.get_rect().y + 22))
             game_engine.textWidget.color((255, 255 ,255))
             game_engine.textWidget.write(game_engine.screen, portrait_x, portrait_y, 40, 'left', userdis, False, True)
         game_engine.screen.blit(cursor_img, cursor_rect)
