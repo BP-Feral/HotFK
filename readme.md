@@ -1,6 +1,24 @@
 # Welcome to Heroes of the Fallen Kingdom - HOTFK -
 
 ## Changelog
+
+### v. 0.1.0 <span style="color:grey">8/May/2023<span>
+
+    OpenGL, Steam Interface, Project Builder, Project Cleaner, Map Editor
+
+ - Added a map editor accessible from the console by running `/debug editor` .
+ - Engine now renders to an OpenGL context using the GPU.
+    > This will be used later on for fragments and shaders.
+    >
+    > It was a requirement in order to enable Steam Overlay.
+ - Added 2 new scripts to build and clean the project easier, requires Python installed on the active machine.
+ - The Map Editor is still very primitive but functionally for now. It can save and load data to a file located in `./resources`.
+---
+
+<details closed>
+
+<summary><span style="color:grey">Older Releases</span></summary>
+
 ### v. <span style="color:pink">experimental<span> <span style="color:white"> 0.0.14b <span> <span style="color:pink">30/Apr/2023<span>
 
     Steam API integration
@@ -10,8 +28,6 @@ Integrated Steam api to manage users, stats and achievements
  - New Steam Class to initialize Steamworks Dll
  - Method to get current Steam user
 
----
-
 ### v. pre 0.0.13a <span style="color:grey">27/Apr/2023<span>
 
     The experiments continue...
@@ -19,11 +35,6 @@ Integrated Steam api to manage users, stats and achievements
  - 2 New Scenes to debug collisions and player movement.
  - New Entity class to derive players and other entities.
  - Small changes for menu GUIs
-
----
-
-<details closed>
-<summary><span style="color:grey">Older Releases</span></summary>
 
 ### v. <span style="color:pink">experimental<span> <span style="color:white"> 0.0.13b <span> <span style="color:pink">28/Apr/2023<span>
 
@@ -104,20 +115,11 @@ Integrated Steam api to manage users, stats and achievements
 
 ## How to install
 
-Currently there is no installation file, you have to compile a copy of the game on your own. To do that you need the following:
+**INSTALLATION UPDATE:** You can build the game now with a simple step.
+compile the `__build.py` file using Python. It will do everything automatically for you. The final build will be located in `dist` folder.
 
- - python 3.11.2 or higher installer
- - `pyinstaller` module installed using `pip install pyinstaller`
-
-after that you have to run the following command in the project folder:
-
-`pyinstaller main.py` this will create an executable for the game to run.
-
-if you need all the intended fancy stuff such as the name, no console and icon run the following command instead:
-
-`pyinstaller main.py --name "Heroes of the Fallen Kingdom" --noconsole --icon "resources/images/icons/icon.ico"`
-
-### **when the command finishes, copy the `resources` and `lib` folder to the installation path (in the same directory as the game executable)**
+There is also an automated cleanup process that will remove any compiled files and reset the project back to original configuration.
+Run `__cleanup.py` in order to achieve that.
 
 ## Contact
 ### Discord or email

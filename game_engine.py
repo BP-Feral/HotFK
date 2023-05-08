@@ -1,98 +1,192 @@
-# Setup Python ----------------------------------------------- #
-import discordsdk as dsdk
-import time as t
-import uuid
+import os, sys
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
-from pygame import init, display, time, FULLSCREEN, mouse, image
+import pygame, moderngl
+from array import array
+
+from scenes.options import OptionsLoop
+from scenes.splash_art import SplashLoop
+from scenes.menu import MenuLoop
+from scenes.editor import EditorLoop
+
 from classes.mixer import Mixer
 from classes.settings import Settings
-from maintenance import process_exists
+from classes.particle import ParticleManager
+from classes.console import ChatConsole
+from classes.text_widget import TextWidget
+from classes.discord import Discord
+from classes.steam import Steam
 
+from maintenance import load_image
 
-# CLass Block ------------------------------------------------ #
-class gameEngine:
+# GameEngine Class ============================================= #
+class GameEngine():
+
     def __init__(self):
 
-        init()
-
-        # Game settings
-        self.width = int
-        self.height = int
-    
+        # Initializie Core Functions
+        pygame.init()
+        pygame.display.init()
+        pygame.event.set_grab(True)
+        self.mainClock = pygame.time.Clock()
         self.settings = Settings()
-        #self.update_game_settings()
-
-        # Objects
-        self.mainClock = time.Clock() 
         self.mixer = Mixer(self.settings)
+        self.discord = Discord(self.mixer)
+        self.particleManager = ParticleManager(self.settings)
+        self.textWidget = TextWidget()
 
-        # Is discord open?
-        if process_exists("discord.exe"):
-            self.discord_active = True
-            print("Discord running")
+        # Steam config
+        self.steam = Steam()
+        if self.steam.is_running():
+            self.steam.get_current_user()
+
+        # Load Sound Config
+        self.mixer.update_music_volume()
+        self.mixer.update_sound_volume()
+        self.mixer.music_play('resources/sounds/Dark_Fog.mp3', -1, 1000)
+
+        self.game_state = 'Just Started'
+        self.fade_state = 0
+
+        self.fps = self.settings.get_fps()
+        pygame.mouse.set_visible(False)
+
+        self.res_scale = 1
+        info = pygame.display.Info()
+        print(f"identified {info.current_w}x{info.current_h}")
+
+        game_icon = pygame.image.load('resources/images/icons/icon.ico')
+        pygame.display.set_caption('Heroes of the Fallen Kingdom')
+        pygame.display.set_icon(game_icon)
+        if info.current_h == 1080:
+            self.window_width = 1920
+            self.window_height = 1080
+            self.settings.set_width(1920)
+            self.settings.set_height(1080)
+            self.settings.write_to_file()
         else:
-            print("Discord is not running")
-            self.discord_active = False
+            self.adjust_video_settings(info)
 
-        # Hide mouse
-        mouse.set_visible(False)
+        print(f"fullscreened at {self.window_width}x{self.window_height}")
+        self.window = pygame.display.set_mode((self.window_width, self.window_height), pygame.FULLSCREEN | pygame.OPENGL | pygame.DOUBLEBUF, 0)
+        self.screen = pygame.Surface((self.window_width, self.window_height))
+        self.chatConsole = ChatConsole(self.settings, self.mixer, self.screen, self)
 
-        # Check for fullscreen setting
-        if self.settings.get_fullscreen():
-            self.screen = display.set_mode((self.settings.get_width(), self.settings.get_height()), FULLSCREEN)
-        else:
-            self.screen = display.set_mode((self.settings.get_width(), self.settings.get_height()))
+        # Open GL
+        self.ctx = moderngl.create_context()
+        quad_buffer = self.ctx.buffer(data=array('f', [
+            -1.0, 1.0, 0.0, 0.0,
+             1.0, 1.0, 1.0, 0.0,
+            -1.0, -1.0, 0.0, 1.0,
+             1.0, -1.0, 1.0, 1.0,
+        ]))
 
-        # Set game icon and title
-        game_icon = image.load('resources/images/icons/icon.ico')
-        display.set_caption("Heroes of the Fallen Kingdom")
-        display.set_icon(game_icon)
+        vert_shader = '''
+        #version 330 core
 
-        # Initialize discord activity if Discord is running
-        if self.discord_active:
-            discord_application_id = 1097332146923913288
-            self.app = dsdk.Discord(discord_application_id, dsdk.CreateFlags.default)
-            self.activity_manager = self.app.get_activity_manager()
+        in vec2 vert;
+        in vec2 texcoord;
+        out vec2 uvs;
 
-            # setup activity
-            self.activity = dsdk.Activity()
-            self.activity.state = "Just started"
+        void main() {
+            uvs = texcoord;
+            gl_Position = vec4(vert, 0.0, 1.0);
+        }
+        '''
 
-            # party settings
-            self.activity.party.id = str(uuid.uuid4())
-            self.activity.party.size.current_size = 1
-            self.activity.party.size.max_size = 4
-            self.activity.secrets.join = str(uuid.uuid4())
-            self.activity.timestamps.start = int(t.time())
+        frag_shader = '''
+        #version 330 core
 
-            # activity icon
-            self.activity.assets.large_image = "https://i.imgur.com/thAl2Ll.png"
+        uniform sampler2D tex;
 
-            # update the activity
-            self.activity_manager.update_activity(self.activity, lambda result: self.debug_callback("update_activity", result))
+        in vec2 uvs;
+        out vec4 f_color;
+
+        void main() {
+            f_color = vec4(texture(tex, uvs).rgb, 1.0);
+        }
+        '''
+
+        self.program = self.ctx.program(vertex_shader=vert_shader, fragment_shader=frag_shader)
+        self.render_object = self.ctx.vertex_array(self.program, [(quad_buffer, '2f 2f', 'vert', 'texcoord')])
+
+        # Load Background
+        self.background = load_image("resources/images/backgrounds/background.png").convert()
+        self.background = pygame.transform.scale(self.background, (self.window_width + 100, self.window_height + 100))
+
+    def surf_to_texture(self, surf):
+        tex = self.ctx.texture(surf.get_size(), 4)
+        tex.filter = (moderngl.NEAREST, moderngl.NEAREST) # type: ignore
+        tex.swizzle = 'BGRA'
+        tex.write(surf.get_view('1'))
+        return tex
+
+    def adjust_video_settings(self, info):
+        self.res_scale = info.current_h / 1080
+        print(f"scaling at {self.res_scale} factor")
+        self.window_height = int(1080 * self.res_scale)
+        self.window_width = int(1920 * self.res_scale)
+        print(f"New resolution is {self.window_width}x{self.window_height}")
+        self.settings.set_width(self.window_width)
+        self.settings.set_height(self.window_height)
+        self.settings.write_to_file()
+
+    def save_settings(self):
+        self.settings.write_to_file()
+
+    def update_display(self):
+        self.fade_in(self.screen)
+
+        frame_tex = self.surf_to_texture(self.screen)
+        frame_tex.use(0)
+        self.program['tex'] = 0
+        self.render_object.render(mode=moderngl.TRIANGLE_STRIP) # type: ignore
+
+        pygame.display.flip()
+
+        frame_tex.release()
+
+        self.mainClock.tick(self.fps)
+
+    def fade(self, surf, direction):
+        surf = surf.copy()
+        fade = 0
+        while fade < 20:
+            fade += 1
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+            self.screen.blit(surf,(0,0))
+            black_surf = surf.copy()
+            black_surf.fill((10,10,10))
+            if direction == 1:
+                black_surf.set_alpha(int(255/20*fade))
+            else:
+                black_surf.set_alpha(int(255-255/20*fade))
+            self.screen.blit(black_surf,(0,0))
+            pygame.display.flip()
+            self.mainClock.tick(self.fps)
+        self.fade_state = 20
+
+    def fade_in(self, surf):
+        if self.fade_state > 0:
+            self.fade_state -= 1
+            black_surf = surf.copy()
+            black_surf.fill((10,10,10))
+            black_surf.set_alpha(int(255/20*self.fade_state))
+            surf.blit(black_surf,(0,0))
 
 
-# Callbacks -------------------------------------------------- #
-    def debug_callback(self, debug, result, *args):
-        if result == dsdk.Result.ok:
-            print(debug, "success")
-        else:
-            print(debug, "failure", result, args)
-
-
-# Updates ---------------------------------------------------- #
-    def updates(self):
-        if self.discord_active:
-            try:
-                self.app.run_callbacks()
-            except:
-                self.discord_active = False
-
-    def update_discord_status(self, state):
-        if self.discord_active:
-            self.activity.state = state
-            self.activity_manager.update_activity(self.activity, lambda result: self.debug_callback("update_activity", result))
-
-    def clear_discord_activity(self):
-        if self.discord_active:
-            self.activity_manager.clear_activity
+# Options View ================================================= #
+    def options_loop(self):
+        OptionsLoop(self)
+# Splash Art View ============================================== #
+    def splash_art_loop(self):
+        SplashLoop(self)
+# Menu View ==================================================== #
+    def menu_loop(self):
+        MenuLoop(self)
+# Map Editor View ============================================== #
+    def editor_loop(self):
+        EditorLoop(self)

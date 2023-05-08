@@ -1,18 +1,16 @@
-# Setup Python ----------------------------------------------- #
-import pygame
-import random
+import random, pygame
 
 
-# CLass Block ------------------------------------------------ #
-class Particle:
-    def __init__(self):
+# ParticleManager Class ======================================== #
+class ParticleManager():
 
+    def __init__(self, settings):
         self.particles = []
-
+        self.settings = settings
 
 # Functions -------------------------------------------------- #
     def add_particles(self):
-        pos_x = random.randint(0, 1920)
+        pos_x = random.randint(0, self.settings.get_height() + 20)
         pos_y = 1085
         radius = random.randint(3,8)
         direction_x = random.randint(-3, 0)
