@@ -35,6 +35,7 @@ class GameEngine():
         self.particleManager = ParticleManager(self.settings)
         self.textWidget = TextWidget()
 
+        self.time = 0
         # Steam config
         self.steam = Steam()
         if self.steam.is_running():
@@ -103,9 +104,11 @@ class GameEngine():
         out vec4 f_color;
 
         void main() {
-            f_color = vec4(texture(tex, uvs).rgb, 1.0);
+            f_color = vec4(texture(tex, uvs).rgb , 1.0);
         }
         '''
+        #uniform float time;
+        #vec2 sample_pos = vec2(uvs.x + sin(uvs.y * 0.5 + time * 0.01), uvs.y);
 
         self.program = self.ctx.program(vertex_shader=vert_shader, fragment_shader=frag_shader)
         self.render_object = self.ctx.vertex_array(self.program, [(quad_buffer, '2f 2f', 'vert', 'texcoord')])
@@ -137,9 +140,11 @@ class GameEngine():
     def update_display(self):
         self.fade_in(self.screen)
 
+        self.time += 1
         frame_tex = self.surf_to_texture(self.screen)
         frame_tex.use(0)
         self.program['tex'] = 0
+        # self.program['time'] = self.time
         self.render_object.render(mode=moderngl.TRIANGLE_STRIP) # type: ignore
 
         pygame.display.flip()

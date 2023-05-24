@@ -90,6 +90,13 @@ class ChatConsole():
                                     self.active = False
                                     self.game_engine.editor_loop()
 
+                            elif self.user_text[:7] == "/camera":
+                                args = self.user_text.split(' ')
+                                if args[1] == "follow":
+                                    self.user_text = ""
+                                    self.active = False
+                                    # TODO add object to follow
+
                             # Clear the box
                             self.user_text = ""
                            # except:
