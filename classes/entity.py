@@ -14,10 +14,10 @@ class Entity():
         self.h_speed= 0
 
         self.rect = pygame.Rect(self.x, self.y, self.image.get_width(), self.image.get_height())
-    
+
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
-    
+
     def update_rect(self):
         self.rect.topleft = (self.x, self.y)
 
@@ -26,7 +26,7 @@ class Entity():
             for event in events:
                 if event.type == event.KEYUP:
                     if event.key == pygame.K_w:
-                        self.v_speed = 0                
+                        self.v_speed = 0
                     if event.key == pygame.K_s:
                         self.v_speed = 0
                     if event.key == pygame.K_a:

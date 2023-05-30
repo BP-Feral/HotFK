@@ -81,37 +81,37 @@ class GameEngine():
             -1.0, -1.0, 0.0, 1.0,
              1.0, -1.0, 1.0, 1.0,
         ]))
+        self.shader = self.ctx.program(
+            vertex_shader='''
+                #version 330 core
 
-        vert_shader = '''
-        #version 330 core
+                in vec2 vert;
+                in vec2 texcoord;
+                out vec2 uvs;
 
-        in vec2 vert;
-        in vec2 texcoord;
-        out vec2 uvs;
+                void main() {
+                    uvs = texcoord;
+                    gl_Position = vec4(vert, 0.0, 1.0);
+                }
+            ''',
+            fragment_shader='''
+                #version 330 core
 
-        void main() {
-            uvs = texcoord;
-            gl_Position = vec4(vert, 0.0, 1.0);
-        }
-        '''
+                uniform sampler2D tex;
 
-        frag_shader = '''
-        #version 330 core
+                in vec2 uvs;
+                out vec4 f_color;
 
-        uniform sampler2D tex;
+                void main() {
+                    f_color = vec4(texture(tex, uvs).rgb , 1.0);
+                }
+            '''
+        )
 
-        in vec2 uvs;
-        out vec4 f_color;
+        # uniform float time;
+        # vec2 sample_pos = vec2(uvs.x + sin(uvs.y * 0.1 + time * 0.01), uvs.y);
 
-        void main() {
-            f_color = vec4(texture(tex, uvs).rgb , 1.0);
-        }
-        '''
-        #uniform float time;
-        #vec2 sample_pos = vec2(uvs.x + sin(uvs.y * 0.5 + time * 0.01), uvs.y);
-
-        self.program = self.ctx.program(vertex_shader=vert_shader, fragment_shader=frag_shader)
-        self.render_object = self.ctx.vertex_array(self.program, [(quad_buffer, '2f 2f', 'vert', 'texcoord')])
+        self.render_object = self.ctx.vertex_array(self.shader, [(quad_buffer, '2f 2f', 'vert', 'texcoord')])
 
         # Load Background
         self.background = load_image("resources/images/backgrounds/background.png").convert()
@@ -143,8 +143,8 @@ class GameEngine():
         self.time += 1
         frame_tex = self.surf_to_texture(self.screen)
         frame_tex.use(0)
-        self.program['tex'] = 0
-        # self.program['time'] = self.time
+        self.shader['tex'] = 0
+        # self.shader['time'] = self.time
         self.render_object.render(mode=moderngl.TRIANGLE_STRIP) # type: ignore
 
         pygame.display.flip()
@@ -173,6 +173,7 @@ class GameEngine():
             pygame.display.flip()
             self.mainClock.tick(self.fps)
         self.fade_state = 20
+
 
     def fade_in(self, surf):
         if self.fade_state > 0:

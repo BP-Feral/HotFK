@@ -73,10 +73,10 @@ def MenuLoop(game_engine):
 
         if options.draw(game_engine.screen):
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
-            game_engine.fade(game_engine.screen, 1)
+            # game_engine.fade(game_engine.screen, 1) # Fade Animation
             game_engine.options_loop()
-            game_engine.fade_in(game_engine.screen)
-            game_engine.fade(game_engine.screen, 1)
+            # game_engine.fade_in(game_engine.screen) # Fade Animation
+            # game_engine.fade(game_engine.screen, 1) # Fade Animation
             game_engine.discord.update_discord_status("Waiting in the menu")
 
         if leave.draw(game_engine.screen):
