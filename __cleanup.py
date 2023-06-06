@@ -3,7 +3,7 @@ import shutil, os
 
 def clean_project():
     dir = '__pycache__'
-    locations = ['./', './classes', './scenes']
+    locations = ['./', './classes', './scenes', './scenes/extras']
 
     for location in locations:
         try:

@@ -5,7 +5,7 @@ import pygame, json
 
 from maintenance import custom_mouse, load_image
 from classes.button import Button
-
+from scenes.options import OptionsLoop
 
 def EditorLoop(game_engine):
 
@@ -78,9 +78,11 @@ def EditorLoop(game_engine):
         for event in pygame.event.get():
             game_engine.chatConsole.update(event)
 
-            if event.type == pygame.KEYUP:
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    editor_loop = False
+                    if OptionsLoop(game_engine) == "leave_state":
+                        editor_loop = False
+                        break
                 if event.key == pygame.K_LSHIFT:
                     camera_speed = 5
                 if event.key == pygame.K_a:
@@ -209,6 +211,7 @@ def EditorLoop(game_engine):
 
         # Load Button
         if button_load.draw(game_engine.screen):
+            collisions = []
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
             with open(f'resources/map_data/{map_name}manifest', 'r') as file:
                 data = file.read()

@@ -125,7 +125,7 @@ def OptionsLoop(game_engine):
 
         if button_exit.draw(game_engine.screen):
             game_engine.discord.update_discord_status("Waiting in the menu")
-            break
+            return "leave_state"
 # Events ----------------------------------------------------- #
         for event in pygame.event.get():
             game_engine.chatConsole.update(event)

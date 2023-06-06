@@ -55,7 +55,7 @@ def MenuLoop(game_engine):
 
         # Draw buttons
         if offline_banner.draw(game_engine.screen):
-
+            game_engine.offline_loop()
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
 
         if online_banner.draw(game_engine.screen):
