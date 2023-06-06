@@ -1,7 +1,11 @@
+# Python Setup =============================================== #
 import time, pygame, sys
+
 from classes.button import Button
 from maintenance import custom_mouse
 
+
+# First Run Loop ============================================= #
 def FirstRunLoop(game_engine):
 
     game_engine.game_state = 'First Run'
@@ -10,9 +14,10 @@ def FirstRunLoop(game_engine):
     previous_time = time.time()
 
     button_save = Button(game_engine.settings.get_width() // 2, game_engine.settings.get_height() - 80, "resources/images/buttons/save.png", "resources/images/buttons/save_hover.png", 1)
-    firstrunloop = True
-    # Splash Art View Loop
-    while firstrunloop:
+
+# Loop Start ------------------------------------------------- #
+    firstrun_loop = True
+    while firstrun_loop:
 
         # Reset Frame
         game_engine.screen.fill(0)
@@ -23,14 +28,13 @@ def FirstRunLoop(game_engine):
         dt = time.time() - previous_time
         previous_time = time.time()
 
-        # Events
+# Events ----------------------------------------------------- #
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-
-        # Drawing
+# Render ----------------------------------------------------- #
         game_engine.textWidget.color((255, 255, 255))
 
         game_engine.textWidget.write(game_engine.screen, 50 / 100 * game_engine.window_width, 30 / 100 * game_engine.window_height, 80, 'center',

@@ -1,11 +1,12 @@
+# Setup Python =============================================== #
 import discordsdk as dsdk
-import time, uuid
+import time, uuid, pygame
 
-import pygame
 from maintenance import process_exists
 from PIL import Image
 
 
+# Discord Class ============================================== #
 class Discord():
     def __init__(self, mixer):
         if process_exists("discord.exe"):
@@ -45,22 +46,7 @@ class Discord():
             # update the activity
             self.update_discord_status("Just Started")
 
-    def on_activity_join(self, join_secret):
-        print("Activity Joined")
-
-    def on_activity_invite(self, type, user, activity):
-        print("Activity Invite Received")
-
-    def update_party(self, min, max):
-        # party settings
-        print("party updated")
-        self.activity.party.id = str(uuid.uuid4())
-        self.activity.party.size.current_size = min
-        self.activity.party.size.max_size = max
-        self.activity.secrets.join = str(uuid.uuid4())
-        self.activity.timestamps.start = int(time.time())
-        self.activity_manager.update_activity(self.activity, lambda result: self.debug_callback("update_activity", result))
-
+# Functions ================================================== #
     def get_portrait(self):
         # handle
         handle = dsdk.ImageHandle()
@@ -74,12 +60,6 @@ class Discord():
 
     def get_username(self):
         return [self.user.username, self.user.discriminator]
-
-    def on_current_user_update(self):
-        self.user = self.user_manager.get_current_user()
-        print(f"Hello, {self.user.username}#{self.user.discriminator}")
-
-        self.get_portrait()
 
     def on_image_loaded(self, result, handle):
         if result != dsdk.Result.ok:
@@ -95,6 +75,23 @@ class Discord():
             data = self.image_manager.get_data(handle)
             im = Image.frombytes("RGBA", (dimensions.width, dimensions.height), data)
             self.portrait = pygame.image.fromstring(im.tobytes(), im.size, im.mode).convert() # type: ignore
+
+    def is_active(self):
+        return self.discord_active
+
+    def clear_activity(self):
+        self.activity_manager.clear_activity
+
+    def disable(self):
+        self.discord_active = False
+
+
+# Updates ---------------------------------------------------- #
+    def on_current_user_update(self):
+        self.user = self.user_manager.get_current_user()
+        print(f"Hello, {self.user.username}#{self.user.discriminator}")
+
+        self.get_portrait()
 
     def on_activity_join_request(self, user):
         print(f"{user.username} wants to join you")
@@ -116,11 +113,18 @@ class Discord():
             except:
                 self.disable()
 
-    def is_active(self):
-        return self.discord_active
+    def on_activity_join(self, join_secret):
+        print("Activity Joined")
 
-    def clear_activity(self):
-        self.activity_manager.clear_activity
+    def on_activity_invite(self, type, user, activity):
+        print("Activity Invite Received")
 
-    def disable(self):
-         self.discord_active = False
+    def update_party(self, min, max):
+        # party settings
+        print("party updated")
+        self.activity.party.id = str(uuid.uuid4())
+        self.activity.party.size.current_size = min
+        self.activity.party.size.max_size = max
+        self.activity.secrets.join = str(uuid.uuid4())
+        self.activity.timestamps.start = int(time.time())
+        self.activity_manager.update_activity(self.activity, lambda result: self.debug_callback("update_activity", result))

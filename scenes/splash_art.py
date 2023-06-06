@@ -11,8 +11,9 @@ def SplashLoop(game_engine):
     speed_pr = 2
 
     cooldown = 0
+
+# Loop Start ------------------------------------------------- #
     splash_loop = True
-    # Splash Art View Loop
     while splash_loop:
         cooldown -= 1
         if cooldown <= 0:
@@ -36,7 +37,7 @@ def SplashLoop(game_engine):
         if progress <= 0:
             break
 
-        # Events
+# Events ----------------------------------------------------- #
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -46,6 +47,7 @@ def SplashLoop(game_engine):
                 if event.key == pygame.K_ESCAPE:
                     speed_pr = -10
 
+# Render ----------------------------------------------------- #
         # Drawing
         pygame.draw.line(game_engine.screen, (int(progress * 1), int(progress * 1), int(progress * 1)), (20 / 100 * game_engine.window_width, 20 / 100 * game_engine.window_height), (20 / 100 * game_engine.window_width * 4, 20 / 100 * game_engine.window_height), 5)
 

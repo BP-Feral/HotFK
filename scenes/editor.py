@@ -1,4 +1,4 @@
-# Imports
+# Python Setup =============================================== #
 import os
 import shutil
 import pygame, json
@@ -7,6 +7,7 @@ from maintenance import custom_mouse, load_image
 from classes.button import Button
 from scenes.options import OptionsLoop
 
+# Editor Loop ================================================ #
 def EditorLoop(game_engine):
 
     # Context
@@ -64,7 +65,7 @@ def EditorLoop(game_engine):
     # Font
     font = pygame.font.Font('resources/fonts/Thintel.ttf', 40)
 
-    # Editor Loop
+# Loop Start ------------------------------------------------- #
     editor_loop = True
     while editor_loop:
 
@@ -75,6 +76,7 @@ def EditorLoop(game_engine):
         mx, my = pygame.mouse.get_pos()
         cursor_rect.center = (mx, my)
 
+# Events ----------------------------------------------------- #
         for event in pygame.event.get():
             game_engine.chatConsole.update(event)
 
@@ -104,6 +106,7 @@ def EditorLoop(game_engine):
                         current_image_index = 0
                 current_image_name = image_names[current_image_index]
                 current_image = images[current_image_name]
+
             # Placing tiles
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if my <= game_engine.window_height - 80:
@@ -121,7 +124,7 @@ def EditorLoop(game_engine):
                                 del tiles[i]
                                 break
 
-
+# Render ----------------------------------------------------- #
         #   Game Grid
         # for i in range (-(game_engine.window_height // 64 + 1), 2* (game_engine.window_height // 64 + 1)):
         #     pygame.draw.line(game_engine.screen, (100, 100, 100), (0 + camera_factor_x, i*TILE_SIZE + camera_factor_y), (game_engine.window_width + camera_factor_x, i*TILE_SIZE + camera_factor_y))

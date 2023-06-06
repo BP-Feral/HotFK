@@ -1,11 +1,15 @@
+# Python Setup =============================================== #
 import configparser
-# Settings Class =============================================== #
+
+
+# Settings Class ============================================= #
 class Settings():
 
     def __init__(self):
         self.config = configparser.ConfigParser()
         self.config.read('./resources/configurations.ini')
 
+# Functions ================================================== #
     def reset(self):
         self.config["VIDEO"] = {
             'fps': '60',
@@ -35,6 +39,7 @@ class Settings():
         with open("./resources/configurations.ini", 'w') as configfile:
             self.config.write(configfile)
 
+# Getters ---------------------------------------------------- #
     def get_fps(self):
         return int(self.config['VIDEO']['fps'])
 
