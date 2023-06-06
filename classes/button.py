@@ -1,6 +1,7 @@
 # Setup Python =============================================== #
-from maintenance import load_image
 import pygame
+
+from maintenance import load_image
 
 
 # Button Class =============================================== #
@@ -20,7 +21,6 @@ class Button:
 
         # Cogs
         self.active = self.image
-
         self.clicked = False
 
 
@@ -54,6 +54,7 @@ class Button:
         # Return true when clicked
         return action
 
+    # Flip button image horizontally or vertically
     def flip(self, direction):
         if direction == "h" or direction == "horizontal":
             self.image = pygame.transform.flip(self.image, False, True)
@@ -65,6 +66,12 @@ class Button:
             self.image = pygame.transform.flip(self.image, True, True)
             self.hover = pygame.transform.flip(self.hover, True, True)
 
+    # Return button collision rectangle
+    def get_rect(self):
+        return (self.rect)
+
+
+# Updates ---------------------------------------------------- #
     def is_colliding(self, mouse_pos):
         if self.rect.collidepoint(mouse_pos):
             return True
@@ -74,6 +81,3 @@ class Button:
     def update_pos(self, x, y):
         self.rect.x = x
         self.rect.y = y
-
-    def get_rect(self):
-        return (self.rect)

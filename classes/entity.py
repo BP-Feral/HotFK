@@ -1,6 +1,10 @@
+# Setup Python =============================================== #
 import pygame
+
 from maintenance import load_image
 
+
+# Entity Class =============================================== #
 class Entity():
     def __init__(self, x, y, speed, image=str, e_type='enemy'):
         self.x = x
@@ -15,13 +19,16 @@ class Entity():
 
         self.rect = pygame.Rect(self.x, self.y, self.image.get_width(), self.image.get_height())
 
+# Functions ================================================== #
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
+
+# Updates ---------------------------------------------------- #
     def update_rect(self):
         self.rect.topleft = (self.x, self.y)
 
-    def update(self, event):
+    def update(self, events):
         if self.e_type == 'player':
             for event in events:
                 if event.type == event.KEYUP:

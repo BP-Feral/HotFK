@@ -1,3 +1,4 @@
+# Python Setup ================================================= #
 import os, sys
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -19,7 +20,8 @@ from classes.steam import Steam
 
 from maintenance import load_image
 
-# GameEngine Class ============================================= #
+
+# GameEngine Core ============================================== #
 class GameEngine():
 
     def __init__(self):
@@ -29,6 +31,8 @@ class GameEngine():
         pygame.display.init()
         pygame.event.set_grab(True)
         self.mainClock = pygame.time.Clock()
+
+# BOILERPLATE ================================================== #
         self.settings = Settings()
         self.mixer = Mixer(self.settings)
         self.discord = Discord(self.mixer)
@@ -73,6 +77,7 @@ class GameEngine():
         self.screen = pygame.Surface((self.window_width, self.window_height))
         self.chatConsole = ChatConsole(self.settings, self.mixer, self.screen, self)
 
+# Shader ------------------------------------------------------- #
         # Open GL
         self.ctx = moderngl.create_context()
         quad_buffer = self.ctx.buffer(data=array('f', [
@@ -107,16 +112,17 @@ class GameEngine():
                 }
             '''
         )
-
-        # uniform float time;
-        # vec2 sample_pos = vec2(uvs.x + sin(uvs.y * 0.1 + time * 0.01), uvs.y);
-
         self.render_object = self.ctx.vertex_array(self.shader, [(quad_buffer, '2f 2f', 'vert', 'texcoord')])
 
         # Load Background
         self.background = load_image("resources/images/backgrounds/background.png").convert()
         self.background = pygame.transform.scale(self.background, (self.window_width + 100, self.window_height + 100))
 
+# Unused shader modifiers -------------------------------------- #
+        # uniform float time;
+        # vec2 sample_pos = vec2(uvs.x + sin(uvs.y * 0.1 + time * 0.01), uvs.y);
+
+# Functions ==================================================== #
     def surf_to_texture(self, surf):
         tex = self.ctx.texture(surf.get_size(), 4)
         tex.filter = (moderngl.NEAREST, moderngl.NEAREST) # type: ignore
@@ -137,6 +143,7 @@ class GameEngine():
     def save_settings(self):
         self.settings.write_to_file()
 
+# Render ------------------------------------------------------- #
     def update_display(self):
         self.fade_in(self.screen)
 

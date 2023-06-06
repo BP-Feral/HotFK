@@ -1,10 +1,14 @@
+# Python Setup =============================================== #
 import sys, os
+
 from steamworks import STEAMWORKS
 from maintenance import process_exists
 
 if sys.version_info >= (3, 8):
   os.add_dll_directory(os.getcwd()) # Required since Python 3.8
 
+
+# Steam Class ================================================ #
 class Steam():
     def __init__(self):
         self.steam_running = self.check_if_running()
@@ -12,6 +16,7 @@ class Steam():
             self.steamworks = STEAMWORKS()
             self.steamworks.initialize()
 
+# Functions ================================================== #
     def check_if_running(self):
         if process_exists("steam.exe"):
             return True

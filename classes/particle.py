@@ -1,7 +1,8 @@
+# Python Setup ================================================ #
 import random, pygame
 
 
-# ParticleManager Class ======================================== #
+# ParticleManager Class ======================================= #
 class ParticleManager():
 
     def __init__(self, settings):
