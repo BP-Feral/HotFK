@@ -34,3 +34,9 @@ def custom_mouse():
 def console_push(message):
     # TODO display console messages in game
     print(message)
+
+# Show FPS
+def show_fps(clock, font):
+	fps = str(int(clock.get_fps()))
+	fps_text = font.render(fps, 1, pygame.Color((20, 200, 20)))
+	return fps_text

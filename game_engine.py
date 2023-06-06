@@ -9,7 +9,12 @@ from scenes.options import OptionsLoop
 from scenes.splash_art import SplashLoop
 from scenes.menu import MenuLoop
 from scenes.editor import EditorLoop
+from scenes.offline_accounts import OfflineLoop
 
+from scenes.extras.debugger import DebuggerLoop
+from scenes.extras.debugger2 import DebuggerLoop2
+from scenes.extras.debugger3 import DebuggerLoop3
+from scenes.extras.debugger4 import DebuggerLoop4
 from classes.mixer import Mixer
 from classes.settings import Settings
 from classes.particle import ParticleManager
@@ -203,3 +208,19 @@ class GameEngine():
 # Map Editor View ============================================== #
     def editor_loop(self):
         EditorLoop(self)
+# Offline Accounts View ======================================== #
+    def offline_loop(self):
+        OfflineLoop(self)
+
+# Debuger Scene ================================================ #
+    def debugger_scene(self):
+        DebuggerLoop(self)
+# Debuger2 Scene =============================================== #
+    def debugger_scene2(self):
+        DebuggerLoop2(self)
+# Debuger3 Scene =============================================== #
+    def debugger_scene3(self):
+        DebuggerLoop3(self)
+# Debuger4 Scene =============================================== #
+    def debugger_scene4(self):
+        DebuggerLoop4(self)
