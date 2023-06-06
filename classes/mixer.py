@@ -1,8 +1,6 @@
-# Python Setup =============================================== #
 import pygame
 
-
-# Mixer Class ================================================ #
+# Mixer Class ================================================== #
 class Mixer():
     def __init__(self, settings):
 
@@ -13,7 +11,7 @@ class Mixer():
 
         self.settings = settings
 
-# Functions ================================================== #
+# Functions --------------------------------------------------- #
     def music_load(self, path):
         self.bg_music = pygame.mixer.music.load(path)
 
@@ -44,3 +42,4 @@ class Mixer():
 
     def update_sound_volume(self):
         self.sound_volume = float(self.settings.get_sound_volume())
+

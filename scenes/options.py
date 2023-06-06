@@ -1,12 +1,10 @@
-# Python Setup =============================================== #
-import sys, pygame
+import sys
+import pygame
 
 from maintenance import custom_mouse, load_image
 from classes.button import Button
 
 
-
-# Options Loop =============================================== #
 def OptionsLoop(game_engine):
 # Get Context
     game_engine.discord.update_discord_status("Checking the settings")
@@ -50,8 +48,8 @@ def OptionsLoop(game_engine):
     show_reset_info = False
 
 # Loop Start ------------------------------------------------- #
-    options_loop = True
-    while options_loop:
+    running = True
+    while running:
 
         # Discord RPC
         game_engine.discord.tick()
@@ -128,7 +126,6 @@ def OptionsLoop(game_engine):
         if button_exit.draw(game_engine.screen):
             game_engine.discord.update_discord_status("Waiting in the menu")
             return "leave_state"
-
 # Events ----------------------------------------------------- #
         for event in pygame.event.get():
             game_engine.chatConsole.update(event)
@@ -136,7 +133,7 @@ def OptionsLoop(game_engine):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
-                    options_loop = False
+                    running = False
             if event.type == PARTICLE_EVENT:
                 game_engine.particleManager.add_particles()
 
@@ -149,7 +146,9 @@ def OptionsLoop(game_engine):
             else:
                 show_reset_info = False
 
+
 # Render ----------------------------------------------------- #
+
         # Music Options Title
         pygame.draw.rect(game_engine.screen, (50, 50, 50), options_music_rect, 2)
         text_surface_volume = font.render("Volume", True, (160, 120, 160))

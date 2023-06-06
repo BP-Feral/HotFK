@@ -1,11 +1,8 @@
-# Python Setup =============================================== #
-import pygame, sys, webbrowser, time
-
+import time
+import pygame, sys, webbrowser
 from classes.button import Button
 from maintenance import custom_mouse
 
-
-# Menu Loop ================================================== #
 def MenuLoop(game_engine):
     game_engine.discord.update_discord_status("Waiting in the menu")
 
@@ -42,7 +39,6 @@ def MenuLoop(game_engine):
     PARTICLE_EVENT = pygame.USEREVENT + 1
     pygame.time.set_timer(PARTICLE_EVENT, 100)
 
-# Loop Start ------------------------------------------------- #
     menu_loop = True
     while menu_loop:
 
@@ -91,8 +87,9 @@ def MenuLoop(game_engine):
             # clear_project()
             sys.exit()
 
-# Events ----------------------------------------------------- #
+
         for event in pygame.event.get():
+
             # Update Console / Chat
             game_engine.chatConsole.update(event)
 
@@ -104,7 +101,6 @@ def MenuLoop(game_engine):
             if event.type == PARTICLE_EVENT:
                 game_engine.particleManager.add_particles()
 
-# Render ----------------------------------------------------- #
         game_engine.chatConsole.draw()
         if game_engine.discord.is_active():
             if profile_card.draw(game_engine.screen):

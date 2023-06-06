@@ -1,13 +1,11 @@
-# Python Setup =============================================== #
 import pygame
 
 
-# Text Widget Class ========================================== #
+# Text Widget Class ============================================ #
 class TextWidget():
     def __init__(self):
         self.font_color = (255, 255, 255)
 
-# Functions ================================================== #
     def color(self, font_color):
         match font_color:
             case 'red':
