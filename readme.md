@@ -113,10 +113,14 @@ Integrated Steam api to manage users, stats and achievements
 
 </details>
 
+## How to debug in VS Code:
+Make sure you have Python 3.11.3 Installed [mirror link](https://www.python.org/ftp/python/3.11.3/python-3.11.3-amd64.exe)
+compile the `main.py` file
+    
 ## How to install
 
 **INSTALLATION UPDATE:** You can build the game now with a simple step.
-compile the `__build.py` file using Python. It will do everything automatically for you. The final build will be located in `dist` folder.
+compile the `__build.py` file using Python. It will do everything automatically for you also move all liraries and additional files automatically. The final build will be located in `dist` folder and ready to be launched.
 
 There is also an automated cleanup process that will remove any compiled files and reset the project back to original configuration.
 Run `__cleanup.py` in order to achieve that.
