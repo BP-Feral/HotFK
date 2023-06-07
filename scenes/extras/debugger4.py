@@ -40,7 +40,7 @@ def DebuggerLoop4(game_engine):
     speed = 3
 
     # DEBUG Health Bar
-    boss_health = 1000
+    boss_health = 300
     hp = healthBar("green", boss_health, 0.5)
     hp.create(game_engine.screen, game_engine.window_width//2 - hp.get_width()//2, 0)
 
