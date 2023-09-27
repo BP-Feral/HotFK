@@ -14,6 +14,8 @@ from scenes.extras.debugger import DebuggerLoop
 from scenes.extras.debugger2 import DebuggerLoop2
 from scenes.extras.debugger3 import DebuggerLoop3
 from scenes.extras.debugger4 import DebuggerLoop4
+from scenes.extras.debugger5 import DebuggerLoop5
+
 from classes.mixer import Mixer
 from classes.settings import Settings
 from classes.particle import ParticleManager
@@ -144,7 +146,6 @@ class GameEngine():
 
     def update_display(self):
         self.fade_in(self.screen)
-
         self.time += 1
         frame_tex = self.surf_to_texture(self.screen)
         frame_tex.use(0)
@@ -217,3 +218,8 @@ class GameEngine():
 # Debuger4 Scene =============================================== #
     def debugger_scene4(self):
         DebuggerLoop4(self)
+# Debuger5 Scene =============================================== #
+    def debugger_scene5(self):
+        DebuggerLoop5(self)
+
+# Debuger4 Scene =============================================== #

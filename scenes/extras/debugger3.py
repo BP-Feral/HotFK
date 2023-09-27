@@ -1,7 +1,7 @@
 # Setup Python ----------------------------------------------- #
 from maintenance import custom_mouse, load_image, show_fps
 from scenes.options import OptionsLoop
-from classes.entity import Entity
+from classes.player import Player
 
 
 import pygame
@@ -65,7 +65,7 @@ def DebuggerLoop3(game_engine):
 
     # Get Context
     player1_path = './resources/images/entities/player/player.png'
-    player1 = Entity( 200, 50, 10, player1_path, 'player')
+    player1 = Player( 200, 50, 10, player1_path, 'player')
 
     game_engine.discord.update_discord_status("Editing new map")
     cursor_img, cursor_rect = custom_mouse()

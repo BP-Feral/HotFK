@@ -4,7 +4,7 @@ class Settings():
 
     def __init__(self):
         self.config = configparser.ConfigParser()
-        self.config.read('./resources/configurations.ini')
+        self.config.read('./resources/config.ini')
 
     def reset(self):
         self.config["VIDEO"] = {
@@ -35,6 +35,7 @@ class Settings():
         with open("./resources/configurations.ini", 'w') as configfile:
             self.config.write(configfile)
 
+# Getters ---------------------------------------------------- #
     def get_fps(self):
         return int(self.config['VIDEO']['fps'])
 

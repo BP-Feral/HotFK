@@ -5,7 +5,7 @@ def downscale_2x(surface, scale):
     new_surface = pygame.transform.scale(surface, (surface.get_width() * scale, surface.get_height() * scale))
     return new_surface
 
-class healthBar:
+class healthBarBoss:
     def __init__(self, color, max_health, scale):
         self.max_health = max_health
         self.current_health = max_health

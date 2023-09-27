@@ -1,7 +1,7 @@
 # Setup Python ----------------------------------------------- #
 from maintenance import custom_mouse, load_image, show_fps
 
-from classes.health import healthBar
+from classes.health_bar_boss import healthBarBoss
 from classes.bullet import Bullet
 
 import pygame
@@ -41,7 +41,7 @@ def DebuggerLoop4(game_engine):
 
     # DEBUG Health Bar
     boss_health = 300
-    hp = healthBar("green", boss_health, 0.5)
+    hp = healthBarBoss("green", boss_health, 0.5)
     hp.create(game_engine.screen, game_engine.window_width//2 - hp.get_width()//2, 0)
 
     base_font = pygame.font.Font("./resources/fonts/Thintel.ttf", 20)

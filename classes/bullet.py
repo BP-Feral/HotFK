@@ -2,6 +2,7 @@ import pygame, math
 
 class Bullet:
     def __init__(self, x, y):
+        '''This class can be used to create projectiles and also manage them.'''
         self.pos = (x, y)
         mx, my = pygame.mouse.get_pos()
         self.dir = (mx - x, my - y)

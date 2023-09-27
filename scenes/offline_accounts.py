@@ -19,7 +19,8 @@ def OfflineLoop(game_engine):
     b1 = Button(1450, 220 + 1 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 1)
     b2 = Button(1450, 220 + 2 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 1)
     b3 = Button(1450, 220 + 3 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 1)
-    buttons_list = [b0, b1, b2, b3]
+    b4 = Button(1450, 220 + 4 * 120, "resources/images/buttons/empty.png", "resources/images/buttons/empty_hover.png", 1)
+    buttons_list = [b0, b1, b2, b3, b4]
 
     # Particles event
     PARTICLE_EVENT = pygame.USEREVENT + 1
@@ -45,7 +46,7 @@ def OfflineLoop(game_engine):
         game_engine.particleManager.emit(game_engine.screen)
 
         # Draw buttons
-        for i in range(0, 4):
+        for i in range(0, 5):
            if buttons_list[i].draw(game_engine.screen):
             console_push(f"pressed button {i}")
             game_engine.mixer.sound_play('resources/sounds/UI_click.mp3')
@@ -62,6 +63,9 @@ def OfflineLoop(game_engine):
             if i == 3:
                 game_engine.discord.update_discord_status("Blackridge: Shadow Tower")
                 game_engine.debugger_scene4()
+            if i == 4:
+                game_engine.discord.update_discord_status("Blackridge: Shadow Tower")
+                game_engine.debugger_scene5()
 
 # Events ----------------------------------------------------- #
         for event in pygame.event.get():
